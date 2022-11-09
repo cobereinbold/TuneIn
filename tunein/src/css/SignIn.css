@@ -1,0 +1,24 @@
+body {
+  background-color: #053e5d;
+  color: white;
+  padding: 40px;
+  font-family: Arial;
+  text-align: center;
+}
+
+.flexContainer {
+  margin-top: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.feild {
+  margin-top: 10%;
+  width: 120%;
+}
+
+h1 {
+  font-size: 1000%;
+}
