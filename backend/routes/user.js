@@ -6,14 +6,17 @@ router.post("/createUser", (req, res) => {
   const user = new User({
     username: req.body.username,
     password: req.body.password,
+    email: req.body.email,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
   });
   user
     .save()
     .then((data) => {
-      res.json(data);
+      res.status(200).json(data);
     })
     .catch((err) => {
-      res.json({ message: err });
+      res.status(500).json({ message: err });
     });
 });
 
