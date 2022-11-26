@@ -6,6 +6,24 @@ class SignIn extends React.Component {
 
   handleSignIn = (e) => {
     e.preventDefault();
+
+    fetch(`http://localhost:5000/user/signInUser`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: this.state.email,
+        password: this.state.password,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Signed in!");
+        } else {
+          console.log("Sign in failed.");
+        }
+      })
+      .catch((err) => console.log(err));
+
     console.log(this.state.email);
     console.log(this.state.password);
   };
@@ -18,7 +36,7 @@ class SignIn extends React.Component {
           <div className="feild">
             <input
               type="text"
-              placeholder="Email"
+              placeholder="Username"
               value={this.state.email}
               onChange={(e) => this.setState({ email: e.target.value })}
             />
@@ -33,7 +51,7 @@ class SignIn extends React.Component {
           </div>
           <div className="feild">
             <button className="ui button" onClick={this.handleSignIn}>
-              Submit
+              Sign In
             </button>
           </div>
         </form>
