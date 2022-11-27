@@ -1,5 +1,5 @@
 body {
-  background-color: #053e5d;
+  background-color: #191414;
   color: white;
   padding: 40px;
   font-family: Arial;
@@ -7,7 +7,7 @@ body {
 }
 
 .flexContainer {
-  margin-top: 20%;
+  margin-top: 15%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,4 +17,12 @@ body {
 .feild {
   margin-top: 10%;
   width: 120%;
+}
+
+.tuneInColor {
+  background-color: #1a9946;
+}
+
+.signUpModal {
+  background-color: #756a6a;
 }

@@ -1,11 +1,11 @@
 import React from "react";
-import "../css/SignIn.css";
 
 //Bootstrap components
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../css/SignIn.css";
 
 class SignIn extends React.Component {
   state = {
@@ -80,7 +80,7 @@ class SignIn extends React.Component {
   render() {
     return (
       <div className="flexContainer">
-        <h1>TuneIn</h1>
+        <img src={require("../images/tuneIn-logo.png")} alt="Tune in logo" />
         <form className="ui form">
           <div className="flexContainer">
             <div className="feild">
@@ -101,7 +101,7 @@ class SignIn extends React.Component {
             </div>
             <div className="feild">
               <Button
-                style={{ marginLeft: 75 }}
+                className="tuneInColor"
                 variant="secondary"
                 onClick={this.handleSignIn}
               >
@@ -111,7 +111,11 @@ class SignIn extends React.Component {
           </div>
         </form>
         <br />
-        <Button variant="secondary" onClick={() => this.manageModal(true)}>
+        <Button
+          className="tuneInColor"
+          variant="secondary"
+          onClick={() => this.manageModal(true)}
+        >
           Sign Up
         </Button>
 
@@ -119,10 +123,10 @@ class SignIn extends React.Component {
           show={this.state.showModal}
           onHide={() => this.manageModal(false)}
         >
-          <Modal.Header closeButton>
+          <Modal.Header className="signUpModal" closeButton>
             <Modal.Title>Sign Up</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="signUpModal">
             <Form>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
@@ -174,11 +178,19 @@ class SignIn extends React.Component {
               </Form.Group>
             </Form>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => this.manageModal(false)}>
+          <Modal.Footer className="signUpModal">
+            <Button
+              className="tuneInColor"
+              variant="secondary"
+              onClick={() => this.manageModal(false)}
+            >
               Close
             </Button>
-            <Button variant="secondary" onClick={this.signUpUser}>
+            <Button
+              className="tuneInColor"
+              variant="secondary"
+              onClick={this.signUpUser}
+            >
               Sign Up
             </Button>
           </Modal.Footer>
