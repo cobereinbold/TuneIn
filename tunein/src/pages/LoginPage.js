@@ -11,8 +11,11 @@ import {
   Button,
   Space,
   Modal,
+  FileInput,
+  Center,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { IconUpload } from "@tabler/icons";
 import "../css/LoginPage.css";
 import logo from "../images/tuneInLogo.png";
 
@@ -175,8 +178,17 @@ const LoginPage = () => {
               placeholder='Password'
               {...signUpForm.getInputProps("password")}
             />
+            <Space h='lg' />
+            <FileInput
+              label='Profile Picture'
+              placeholder='Profile Picture'
+              icon={<IconUpload size={14} />}
+              accept='image/png,image/jpeg'
+            />
             <Space h='xl' />
-            <Button type='submit'>SIGN UP</Button>
+            <Center>
+              <Button type='submit'>SIGN UP</Button>
+            </Center>
           </form>
         </Box>
       </Modal>
