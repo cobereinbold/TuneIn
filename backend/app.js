@@ -4,8 +4,6 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require('dotenv').config();
-const cookieParser = require('cookie-parser');
-const uuid = require('uuid/v4')
 const sessions = require('express-session');
 const MongoDBSessionStore = require('connect-mongodb-session')(sessions);
 
@@ -30,7 +28,7 @@ app.use(cors());
 app.use(sessions({
   secret: 'supersecret',
   saveUninitialized: false,
-  cookie: { maxAge: oneHour },
+  cookie: { maxAge: 1000*60*60 },
   resave: false,
   store: sessionStore
 }))
@@ -51,4 +49,4 @@ app.get('/home', isAuth, (req, res) => {
 
 
 //Listen on port 5000
-app.listen(5001);
+app.listen(5000);
