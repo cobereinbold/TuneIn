@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CustomHeader from "../components/CustomHeader";
 import {
   AspectRatio,
@@ -9,14 +10,22 @@ import {
   Stack,
   Button,
   Space,
-  Code,
+  Modal,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import "../css/LoginPage.css";
 import logo from "../images/tuneInLogo.png";
 
 const LoginPage = () => {
-  const [submittedValues, setSubmittedValues] = useState("");
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("authenticated");
+    if (loggedInUser) {
+      navigate("/home");
+    }
+  }, []);
 
   const loginForm = useForm({
     initialValues: {
@@ -25,13 +34,12 @@ const LoginPage = () => {
     },
 
     validate: {
-      //   email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      username: (value) => (value === "" ? "Invalid username" : null),
+      password: (value) => (value === "" ? "Invalid password" : null),
     },
   });
 
   const handleSignIn = (values) => {
-    // e.preventDefault();
-
     fetch(`http://localhost:5000/user/signInUser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -43,6 +51,8 @@ const LoginPage = () => {
       .then((response) => {
         if (response.status === 200) {
           console.log("Signed in!");
+          localStorage.setItem("authenticated", true);
+          navigate("/home");
         } else {
           console.log("Sign in failed.");
         }
@@ -50,32 +60,39 @@ const LoginPage = () => {
       .catch((err) => console.log(err));
   };
 
-  const signUpUser = (e) => {
-    if (
-      this.state.newEmail.length === 0 ||
-      this.state.newUsername.length === 0 ||
-      this.state.newFirstName.length === 0 ||
-      this.state.newLastName.length === 0 ||
-      this.state.newPassword.length === 0
-    ) {
-      return;
-    }
+  const signUpForm = useForm({
+    initialValues: {
+      email: "",
+      username: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+    },
 
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      username: (value) => (value === "" ? "Mandatory field" : null),
+      firstName: (value) => (value === "" ? "Mandatory field" : null),
+      lastName: (value) => (value === "" ? "Mandatory field" : null),
+      password: (value) => (value === "" ? "Mandatory field" : null),
+    },
+  });
+
+  const signUpUser = (values) => {
     fetch(`http://localhost:5000/user/createUser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username: this.state.newUsername,
-        password: this.state.newPassword,
-        email: this.state.newEmail,
-        firstName: this.state.newFirstName,
-        lastName: this.state.newLastName,
+        username: values.username,
+        password: values.password,
+        email: values.email,
+        firstName: values.firstName,
+        lastName: values.lastName,
       }),
     })
       .then((response) => {
         if (response.status === 200) {
           console.log("User created successfully!");
-          this.manageModal(false);
         } else {
           console.log("User could not be created");
         }
@@ -97,26 +114,72 @@ const LoginPage = () => {
         <form onSubmit={loginForm.onSubmit((values) => handleSignIn(values))}>
           <TextInput
             withAsterisk
-            label='Email'
-            placeholder='your@email.com'
+            label='Username'
+            placeholder='JohnSmith'
             {...loginForm.getInputProps("username")}
           ></TextInput>
           <Space h='lg' />
           <PasswordInput
             withAsterisk
             label='Password'
-            placeholder='password'
+            placeholder='Password'
             {...loginForm.getInputProps("password")}
           />
           <Space h='xl' />
           <Space h='xl' />
           <Stack spacing='xl'>
             <Button type='submit'>LOGIN</Button>
-            <Button>SIGN UP</Button>
+            <Button onClick={() => setModalOpen(true)}>SIGN UP</Button>
           </Stack>
         </form>
       </Box>
-      {submittedValues && <Code block>{submittedValues}</Code>}
+      <Modal
+        opened={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title='Create an Account'
+        centered
+      >
+        <Box sx={{ maxWidth: 400 }} mx='auto'>
+          <form onSubmit={signUpForm.onSubmit((values) => signUpUser(values))}>
+            <TextInput
+              withAsterisk
+              label='Email'
+              placeholder='you@gmail.com'
+              {...signUpForm.getInputProps("email")}
+            ></TextInput>
+            <Space h='lg' />
+            <TextInput
+              withAsterisk
+              label='Username'
+              placeholder='JohnSmith'
+              {...signUpForm.getInputProps("username")}
+            ></TextInput>
+            <Space h='lg' />
+            <TextInput
+              withAsterisk
+              label='First Name'
+              placeholder='John'
+              {...signUpForm.getInputProps("firstName")}
+            ></TextInput>
+            <Space h='lg' />
+            <TextInput
+              withAsterisk
+              label='Last Name'
+              placeholder='Smith'
+              {...signUpForm.getInputProps("lastName")}
+            ></TextInput>
+            <Space h='lg' />
+            <PasswordInput
+              withAsterisk
+              label='Password'
+              placeholder='Password'
+              {...signUpForm.getInputProps("password")}
+            />
+            <Space h='xl' />
+            <Button type='submit'>SIGN UP</Button>
+          </form>
+        </Box>
+      </Modal>
     </>
   );
 };
