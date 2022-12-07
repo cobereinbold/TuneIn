@@ -3,6 +3,7 @@ import SideBar from "./components/SideBar";
 import CustomHeader from "./components/CustomHeader";
 import SignIn from "./components/SignIn";
 import { Button, MantineProvider } from "@mantine/core";
+import LoginPage from "./pages/LoginPage";
 import "./fonts/GOTHAM-BLACK.ttf";
 import "./App.css";
 
@@ -44,7 +45,7 @@ const App = () => {
         primaryShade: 7,
       }}
     >
-      <SignIn />
+      <LoginPage />
     </MantineProvider>
   );
 };
