@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {
   Text,
-  Container,
-  Center,
   Navbar,
   Button,
   Title,
