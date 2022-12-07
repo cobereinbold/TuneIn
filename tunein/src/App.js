@@ -1,5 +1,6 @@
 import React from "react";
 import SideBar from "./components/SideBar";
+import CustomHeader from "./components/CustomHeader";
 import SignIn from "./components/SignIn";
 import { Button, MantineProvider } from "@mantine/core";
 import "./fonts/GOTHAM-BLACK.ttf";
@@ -43,9 +44,7 @@ const App = () => {
         primaryShade: 7,
       }}
     >
-      <div className='ui container'>
-        <SignIn />
-      </div>
+      <SignIn />
     </MantineProvider>
   );
 };
