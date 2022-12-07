@@ -1,9 +1,8 @@
 import React from "react";
-import SideBar from "./components/SideBar";
-import CustomHeader from "./components/CustomHeader";
-import SignIn from "./components/SignIn";
-import { Button, MantineProvider } from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
 import "./fonts/GOTHAM-BLACK.ttf";
 import "./App.css";
 
@@ -45,7 +44,12 @@ const App = () => {
         primaryShade: 7,
       }}
     >
-      <LoginPage />
+      <BrowserRouter>
+        <Routes>
+          <Route index path='login' element={<LoginPage />} />
+          <Route index path='home' element={<HomePage />} />
+        </Routes>
+      </BrowserRouter>
     </MantineProvider>
   );
 };
