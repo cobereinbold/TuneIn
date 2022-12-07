@@ -20,7 +20,7 @@ const LoginPage = () => {
 
   const loginForm = useForm({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
 
@@ -35,7 +35,10 @@ const LoginPage = () => {
     fetch(`http://localhost:5000/user/signInUser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: values,
+      body: JSON.stringify({
+        username: values.username,
+        password: values.password,
+      }),
     })
       .then((response) => {
         if (response.status === 200) {
@@ -96,7 +99,7 @@ const LoginPage = () => {
             withAsterisk
             label='Email'
             placeholder='your@email.com'
-            {...loginForm.getInputProps("email")}
+            {...loginForm.getInputProps("username")}
           ></TextInput>
           <Space h='lg' />
           <PasswordInput
