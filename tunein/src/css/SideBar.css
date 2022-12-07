@@ -1,0 +1,10 @@
+.sb-background {
+  background-color: #1a9946;
+  color: white;
+  width: 20vw;
+  min-height: 100vh;
+}
+.mantine-Text-root {
+  font-family: "Gotham";
+  margin-left: 10px;
+}
