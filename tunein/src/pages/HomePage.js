@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import SideBar from "../components/SideBar";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -7,13 +8,17 @@ const HomePage = () => {
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
     if (!loggedInUser) {
-      navigate("/login");
+      navigate("/");
+    } else {
+      retrievePosts();
     }
   }, []);
 
+  const retrievePosts = () => {};
+
   return (
     <>
-      <div>HomePage</div>
+      <SideBar activePage='HOME' />
     </>
   );
 };
