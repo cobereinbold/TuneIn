@@ -26,9 +26,9 @@ const SideBar = () => {
   const [activePage, setActivePage] = useState("HOME");
 
   return (
-    <Navbar height={"100vh"} p='xs' width={{ base: 300 }}>
+    <Navbar height={"100vh"} p='xs' width={{ base: 300 }} className='sidebar'>
       <Navbar.Section>
-        <Title order={1} color='white'>
+        <Title order={1} color='white' ta='left'>
           TuneIn
         </Title>
       </Navbar.Section>
@@ -41,6 +41,7 @@ const SideBar = () => {
           onClick={() => {
             setActivePage("HOME");
           }}
+          fullWidth
         >
           HOME
         </Button>
@@ -53,6 +54,7 @@ const SideBar = () => {
           onClick={() => {
             setActivePage("POST");
           }}
+          fullWidth
         >
           POST
         </Button>
