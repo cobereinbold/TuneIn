@@ -1,0 +1,4 @@
+@font-face {
+  font-family: "Gotham"; /*Can be any text*/
+  src: local("GOTHAM-BLACK"), url("./fonts/GOTHAM-BLACK.ttf") format("truetype");
+}
