@@ -44,7 +44,7 @@ const App = () => {
       }}
     >
       <div className='ui container'>
-        <SideBar />
+        <SignIn />
       </div>
     </MantineProvider>
   );
