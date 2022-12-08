@@ -1,0 +1,15 @@
+.song-image:hover {
+  cursor: pointer;
+}
+
+.username:hover {
+  cursor: pointer;
+}
+
+.likes:hover {
+  cursor: pointer;
+}
+
+.comments:hover {
+  cursor: pointer;
+}
