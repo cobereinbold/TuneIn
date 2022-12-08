@@ -28,6 +28,7 @@ import takeCare from "../images/take-care.jpeg";
 import tiesto from "../images/tiesto.jpeg";
 import midnights from "../images/midnights.jpeg";
 import metro from "../images/metro.jpeg";
+import "../css/AccountPage.css";
 
 let pastPosts = [
   {
@@ -341,6 +342,7 @@ const AccountPage = () => {
                   setModalOpen(true);
                   setSelectedPost(post);
                 }}
+                className='image'
               />
             );
           })}
