@@ -21,8 +21,9 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  token: { 
-    type: String 
+  favoriteGenre: {
+    type: String,
+    requires: true
   }
 });
 

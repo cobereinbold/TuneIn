@@ -2,17 +2,20 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const jwt = require('jsonwebtoken')
-//const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
-router.post("/createUser", (req, res) => {
-  //const encryptedPassword = bcrypt.hash(password, 10); can add later maybe, not certain we need
+router.post("/createUser", async (req, res) => {
+  //TODO: Check is user with given username already exists
+ 
+  const encryptedPassword = await bcrypt.hash(req.body.password, 10);
+
   const user = new User({
     username: req.body.username,
-    password: req.body.password,
+    password: encryptedPassword,
     email: req.body.email,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    favoriteGenre: req.body.favoriteGenre
   });
 
   // the following saves the user and generates a JWT for that user.
@@ -22,31 +25,29 @@ router.post("/createUser", (req, res) => {
       res.status(201).json(data);
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
       res.status(500).json({ message: err });
     });
 });
 
-router.post("/signInUser", (req, res) => {
-  User.findOne({ username: req.body.username }, (err, foundUser) => {
-    if (err) {
-      res.status(500).send(err);
-      return;
-    }
-    if (!foundUser) {
-      res.status(500).send("User not found.");
-      return;
-    }
-    if (foundUser.password === req.body.password) {
-      req.session.isAuth = true;
-      res.status(200).json({
-        username: foundUser.username,
-        token
-      });
-    } else {
-      res.status(500).send("Incorrect password");
-    }
-  });
+router.post("/signInUser", async (req, res) => {
+  const foundUser = await User.findOne({username: req.body.username});
+
+  if (!foundUser) {
+    res.status(500).send("User not found.");
+    return;
+  }
+
+  const passwordMatch = await bcrypt.compare(req.body.password, foundUser.password);
+
+  if (passwordMatch) {
+    req.session.isAuth = true;
+    res.status(200).json({
+      username: foundUser.username,
+    });
+  } else {
+    res.status(500).send("Incorrect password");
+  }
 });
 
 module.exports = router;
