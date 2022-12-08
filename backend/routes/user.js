@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 //const bcrypt = require('bcrypt');
 
 router.post("/createUser", (req, res) => {
@@ -22,7 +22,7 @@ router.post("/createUser", (req, res) => {
       res.status(201).json(data);
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
       res.status(500).json({ message: err });
     });
 });
@@ -41,7 +41,6 @@ router.post("/signInUser", (req, res) => {
       req.session.isAuth = true;
       res.status(200).json({
         username: foundUser.username,
-        token
       });
     } else {
       res.status(500).send("Incorrect password");
