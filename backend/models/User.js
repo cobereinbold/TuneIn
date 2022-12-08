@@ -23,8 +23,12 @@ const UserSchema = mongoose.Schema({
   },
   favoriteGenre: {
     type: String,
-    requires: true
-  }
+    requires: true,
+  },
+  posted: {
+    type: String,
+    default: "",
+  },
 });
 
 module.exports = mongoose.model("Users", UserSchema);
