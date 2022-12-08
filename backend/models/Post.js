@@ -36,7 +36,7 @@ const PostSchema = mongoose.Schema({
   likes: {
     count: {
       type: Number,
-      required: true,
+      default: 0,
     },
     users: {
       type: Array,
