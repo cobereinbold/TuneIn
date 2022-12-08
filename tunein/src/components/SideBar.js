@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Text,
   Navbar,
@@ -19,9 +20,10 @@ import {
 } from "@tabler/icons";
 import "../css/SideBar.css";
 
-const SideBar = () => {
+const SideBar = (props) => {
   const theme = useMantineTheme();
-  const [activePage, setActivePage] = useState("HOME");
+  const navigate = useNavigate();
+  const [activePage, setActivePage] = useState(props.activePage);
 
   return (
     <Navbar height={"100vh"} p='xs' width={{ base: 300 }} className='sidebar'>
@@ -37,7 +39,7 @@ const SideBar = () => {
           size='xl'
           color={activePage === "HOME" ? "spBlack" : "white"}
           onClick={() => {
-            setActivePage("HOME");
+            navigate("/home");
           }}
           fullWidth
         >
@@ -50,7 +52,7 @@ const SideBar = () => {
           size='xl'
           color={activePage === "POST" ? "spBlack" : "white"}
           onClick={() => {
-            setActivePage("POST");
+            navigate("/post");
           }}
           fullWidth
         >
@@ -70,10 +72,15 @@ const SideBar = () => {
               padding: theme.spacing.xs,
               borderRadius: theme.radius.sm,
               color: theme.black,
+              backgroundColor:
+                activePage === "ACCOUNT" ? theme.colors.spGreen[7] : "",
 
               "&:hover": {
                 backgroundColor: theme.colors.spGreen[7],
               },
+            }}
+            onClick={() => {
+              navigate("/account");
             }}
           >
             <Group>

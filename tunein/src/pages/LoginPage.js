@@ -11,14 +11,18 @@ import {
   Button,
   Space,
   Modal,
+  FileInput,
+  Center,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { IconUpload } from "@tabler/icons";
 import "../css/LoginPage.css";
 import logo from "../images/tuneInLogo.png";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const [invalidPassword, setInvalidPassword] = useState(false);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
@@ -55,6 +59,7 @@ const LoginPage = () => {
           navigate("/home");
         } else {
           console.log("Sign in failed.");
+          loginForm.setErrors({ password: "Invalid password" });
         }
       })
       .catch((err) => console.log(err));
@@ -175,8 +180,17 @@ const LoginPage = () => {
               placeholder='Password'
               {...signUpForm.getInputProps("password")}
             />
+            <Space h='lg' />
+            <FileInput
+              label='Profile Picture'
+              placeholder='Profile Picture'
+              icon={<IconUpload size={14} />}
+              accept='image/png,image/jpeg'
+            />
             <Space h='xl' />
-            <Button type='submit'>SIGN UP</Button>
+            <Center>
+              <Button type='submit'>SIGN UP</Button>
+            </Center>
           </form>
         </Box>
       </Modal>

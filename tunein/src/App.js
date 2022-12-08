@@ -1,10 +1,12 @@
 import React from "react";
 import { MantineProvider } from "@mantine/core";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
 import "./fonts/GOTHAM-BLACK.ttf";
 import "./App.css";
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+import PostPage from "./pages/PostPage";
+import AccountPage from "./pages/AccountPage";
 
 const App = () => {
   return (
@@ -46,8 +48,10 @@ const App = () => {
     >
       <BrowserRouter>
         <Routes>
-          <Route index path='login' element={<LoginPage />} />
-          <Route index path='home' element={<HomePage />} />
+          <Route path='/' element={<LoginPage />} />
+          <Route path='home' element={<HomePage />} />
+          <Route path='post' element={<PostPage />} />
+          <Route path='account' element={<AccountPage />} />
         </Routes>
       </BrowserRouter>
     </MantineProvider>
