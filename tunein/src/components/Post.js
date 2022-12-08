@@ -17,6 +17,12 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(false);
 
+  const [comment, setComment] = useState("");
+
+  const commentOnPost = () => {};
+
+  const likePost = () => {};
+
   return (
     <>
       <Container>
@@ -86,7 +92,16 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
           );
         })}
         <Space h='md' />
-        <TextInput label='Add a comment' placeholder='Comment'></TextInput>
+        <TextInput
+          label='Add a comment'
+          placeholder='Comment'
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        ></TextInput>
+        <Space h='md' />
+        <Group position='right'>
+          <Button disabled={comment === "" ? true : false}>Send</Button>
+        </Group>
       </Modal>
     </>
   );
