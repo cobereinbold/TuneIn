@@ -12,6 +12,8 @@ import {
 } from "@mantine/core";
 import React, { useState } from "react";
 import { IconHeart } from "@tabler/icons";
+import "../css/Post.css";
+import SpotifyButton from "./SpotifyButton";
 
 const Post = ({ user, songInfo, likes, caption, comments }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -26,7 +28,7 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
   return (
     <>
       <Container>
-        <Group>
+        <Group className='username'>
           <Avatar src={user.profilePicture} alt={user.userName} radius='xl' />
           <Text fz='lg'>{user.userName}</Text>
         </Group>
@@ -38,9 +40,10 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
             height={600}
             caption={songInfo.song + ": " + songInfo.artist}
             onClick={() => setModalOpen(true)}
+            className='song-image'
           />
         </Center>
-        <Group spacing='none'>
+        <Group spacing='none' className='likes'>
           <IconHeart size={20} fill={"red"} color='red' />
           <Text>{likes.count + " Likes"}</Text>
         </Group>
@@ -52,7 +55,9 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
             {caption}
           </Text>
         </Group>
-        <Text onClick={() => setCommentsOpen(true)}>View all comments...</Text>
+        <Text onClick={() => setCommentsOpen(true)} className='comments'>
+          View all comments...
+        </Text>
       </Container>
       <Modal
         centered
@@ -61,14 +66,16 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
         title='Listen on Spotify?'
       >
         <Center>
-          <Button
+          {/* <Button
             onClick={() => {
               window.open(songInfo.spotifyLink, "_blank");
               setModalOpen(false);
             }}
           >
+
             Go to Spotify
-          </Button>
+          </Button> */}
+          <SpotifyButton link={songInfo.spotifyLink} />
         </Center>
       </Modal>
       <Modal
