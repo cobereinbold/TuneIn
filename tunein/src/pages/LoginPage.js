@@ -57,7 +57,12 @@ const LoginPage = () => {
           console.log("Signed in!");
           localStorage.setItem("authenticated", true);
           navigate("/home");
-        } else {
+        } 
+        else if(response.status === 501){
+          console.log("Sign in failed.");
+          loginForm.setErrors({ username: "Invalid username" });
+        }
+        else {
           console.log("Sign in failed.");
           loginForm.setErrors({ password: "Invalid password" });
         }
@@ -98,8 +103,15 @@ const LoginPage = () => {
       .then((response) => {
         if (response.status === 200) {
           console.log("User created successfully!");
-        } else {
-          console.log("User could not be created");
+        }
+        else if(response.status === 502){ // Email already used
+          console.log("User could not be created. \nError: " + response);
+          signUpForm.setErrors({ email: "Account already created" }); //TODO: Forgot password handling
+        } 
+        else {  //TODO: need more error handling, username already taken not neccessarily the issue. 
+                  //      Backend needs different error numbers
+          console.log("User could not be created. \nError: " + response);
+          signUpForm.setErrors({ username: "Username already taken" });
         }
       })
       .catch((err) => console.log(err));
