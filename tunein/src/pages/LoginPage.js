@@ -22,6 +22,7 @@ import logo from "../images/tuneInLogo.png";
 const LoginPage = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const [invalidPassword, setInvalidPassword] = useState(false);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
@@ -58,6 +59,7 @@ const LoginPage = () => {
           navigate("/home");
         } else {
           console.log("Sign in failed.");
+          loginForm.setErrors({ password: "Invalid password" });
         }
       })
       .catch((err) => console.log(err));
