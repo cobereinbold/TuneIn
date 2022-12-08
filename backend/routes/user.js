@@ -5,9 +5,17 @@ const User = require("../models/User");
 const bcrypt = require('bcryptjs');
 
 router.post("/createUser", async (req, res) => {
+  // Duplicated Email
+  const email = await User.findOne({email: req.body.email});
+  if(email != null){
+    res.status(502).send("Email used: " + email.email);
+    return;
+  }
+  
+  // Duplicated Username
   const potentialUser = await User.findOne({username: req.body.username});
   if(potentialUser != null){
-    res.status(500).send("User exists: " + potentialUser.username);
+    res.status(501).send("User exists: " + potentialUser.username);
     return;
   }
   

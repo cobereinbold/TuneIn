@@ -103,10 +103,13 @@ const LoginPage = () => {
       .then((response) => {
         if (response.status === 200) {
           console.log("User created successfully!");
+        }
+        else if(response.status === 502){ // Email already used
+          console.log("User could not be created. \nError: " + response);
+          signUpForm.setErrors({ email: "Account already created" }); //TODO: Forgot password handling
         } 
         else {  //TODO: need more error handling, username already taken not neccessarily the issue. 
                   //      Backend needs different error numbers
-          console.log(response);
           console.log("User could not be created. \nError: " + response);
           signUpForm.setErrors({ username: "Username already taken" });
         }
