@@ -5,8 +5,12 @@ const User = require("../models/User");
 const bcrypt = require('bcryptjs');
 
 router.post("/createUser", async (req, res) => {
-  //TODO: Check is user with given username already exists
- 
+  const potentialUser = await User.findOne({username: req.body.username});
+  if(potentialUser != null){
+    res.status(500).send("User exists: " + potentialUser.username);
+    return;
+  }
+  
   const encryptedPassword = await bcrypt.hash(req.body.password, 10);
 
   const user = new User({
@@ -18,16 +22,16 @@ router.post("/createUser", async (req, res) => {
     favoriteGenre: req.body.favoriteGenre
   });
 
-  // the following saves the user and generates a JWT for that user.
-  user
-    .save()
-    .then((data) => {
-      res.status(201).json(data);
-    })
-    .catch((err) => {
+  // the following saves the user and generates a JWT (JSON Web Token) for that user.
+  await user.save(function(err,result){
+    if (err){
       console.log(err);
       res.status(500).json({ message: err });
-    });
+    }
+    else{
+      res.status(200).json(result);
+    }
+  });
 });
 
 router.post("/signInUser", async (req, res) => {
@@ -45,7 +49,8 @@ router.post("/signInUser", async (req, res) => {
     res.status(200).json({
       username: foundUser.username,
     });
-  } else {
+  } 
+  else {
     res.status(500).send("Incorrect password");
   }
 });

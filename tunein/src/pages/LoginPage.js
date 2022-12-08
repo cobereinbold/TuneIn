@@ -98,8 +98,11 @@ const LoginPage = () => {
       .then((response) => {
         if (response.status === 200) {
           console.log("User created successfully!");
-        } else {
-          console.log("User could not be created");
+        } else {  //TODO: need more error handling, username already taken not neccessarily the issue. 
+                  //      Backend needs different error numbers
+          console.log(response);
+          console.log("User could not be created. \nError: " + response);
+          signUpForm.setErrors({ username: "Username already taken" });
         }
       })
       .catch((err) => console.log(err));
