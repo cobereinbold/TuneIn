@@ -79,30 +79,30 @@ class SignIn extends React.Component {
 
   render() {
     return (
-      <div className="flexContainer">
-        <img src={require("../images/tuneIn-logo.png")} alt="Tune in logo" />
-        <form className="ui form">
-          <div className="flexContainer">
-            <div className="feild">
+      <div className='flexContainer'>
+        {/* <img src={require("../images/tuneIn-logo.png")} alt="Tune in logo" /> */}
+        <form className='ui form'>
+          <div className='flexContainer'>
+            <div className='feild'>
               <input
-                type="text"
-                placeholder="Username"
+                type='text'
+                placeholder='Username'
                 value={this.state.email}
                 onChange={(e) => this.setState({ email: e.target.value })}
               />
             </div>
-            <div className="feild">
+            <div className='feild'>
               <input
-                type="password"
-                placeholder="Password"
+                type='password'
+                placeholder='Password'
                 value={this.state.password}
                 onChange={(e) => this.setState({ password: e.target.value })}
               />
             </div>
-            <div className="feild">
+            <div className='feild'>
               <Button
-                className="tuneInColor"
-                variant="secondary"
+                className='tuneInColor'
+                variant='secondary'
                 onClick={this.handleSignIn}
               >
                 Sign In
@@ -112,8 +112,8 @@ class SignIn extends React.Component {
         </form>
         <br />
         <Button
-          className="tuneInColor"
-          variant="secondary"
+          className='tuneInColor'
+          variant='secondary'
           onClick={() => this.manageModal(true)}
         >
           Sign Up
@@ -123,53 +123,53 @@ class SignIn extends React.Component {
           show={this.state.showModal}
           onHide={() => this.manageModal(false)}
         >
-          <Modal.Header className="signUpModal" closeButton>
+          <Modal.Header className='signUpModal' closeButton>
             <Modal.Title>Sign Up</Modal.Title>
           </Modal.Header>
-          <Modal.Body className="signUpModal">
+          <Modal.Body className='signUpModal'>
             <Form>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Group className='mb-3' controlId='formBasicEmail'>
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
-                  type="email"
+                  type='email'
                   value={this.state.newEmail}
                   onChange={(e) => this.setState({ newEmail: e.target.value })}
                 />
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicUsername">
+              <Form.Group className='mb-3' controlId='formBasicUsername'>
                 <Form.Label>Username</Form.Label>
                 <Form.Control
-                  type="text"
+                  type='text'
                   value={this.state.newUsername}
                   onChange={(e) =>
                     this.setState({ newUsername: e.target.value })
                   }
                 />
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicFirstName">
+              <Form.Group className='mb-3' controlId='formBasicFirstName'>
                 <Form.Label>First Name</Form.Label>
                 <Form.Control
-                  type="text"
+                  type='text'
                   value={this.state.newFirstName}
                   onChange={(e) =>
                     this.setState({ newFirstName: e.target.value })
                   }
                 />
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicLastName">
+              <Form.Group className='mb-3' controlId='formBasicLastName'>
                 <Form.Label>Last Name</Form.Label>
                 <Form.Control
-                  type="text"
+                  type='text'
                   value={this.state.newLastName}
                   onChange={(e) =>
                     this.setState({ newLastName: e.target.value })
                   }
                 />
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Group className='mb-3' controlId='formBasicPassword'>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
-                  type="text"
+                  type='text'
                   value={this.state.newPassword}
                   onChange={(e) =>
                     this.setState({ newPassword: e.target.value })
@@ -178,17 +178,17 @@ class SignIn extends React.Component {
               </Form.Group>
             </Form>
           </Modal.Body>
-          <Modal.Footer className="signUpModal">
+          <Modal.Footer className='signUpModal'>
             <Button
-              className="tuneInColor"
-              variant="secondary"
+              className='tuneInColor'
+              variant='secondary'
               onClick={() => this.manageModal(false)}
             >
               Close
             </Button>
             <Button
-              className="tuneInColor"
-              variant="secondary"
+              className='tuneInColor'
+              variant='secondary'
               onClick={this.signUpUser}
             >
               Sign Up
