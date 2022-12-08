@@ -51,7 +51,9 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
         title={"Select this song"}
         centered
       >
-        <Image src={image} height={400} width={400} />
+        <Center>
+          <Image src={image} height={300} width={300} />
+        </Center>
         <Space h='sm' />
         {previewUrl && (
           <Center>
