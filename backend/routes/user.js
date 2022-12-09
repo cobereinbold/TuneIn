@@ -2,23 +2,23 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
 router.post("/createUser", async (req, res) => {
   // Duplicated Email
-  const email = await User.findOne({email: req.body.email});
-  if(email != null){
+  const email = await User.findOne({ email: req.body.email });
+  if (email != null) {
     res.status(502).send("Email used: " + email.email);
     return;
   }
-  
+
   // Duplicated Username
-  const potentialUser = await User.findOne({username: req.body.username});
-  if(potentialUser != null){
+  const potentialUser = await User.findOne({ username: req.body.username });
+  if (potentialUser != null) {
     res.status(501).send("User exists: " + potentialUser.username);
     return;
   }
-  
+
   const encryptedPassword = await bcrypt.hash(req.body.password, 10);
 
   const user = new User({
@@ -27,38 +27,39 @@ router.post("/createUser", async (req, res) => {
     email: req.body.email,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    favoriteGenre: req.body.favoriteGenre
+    favoriteGenre: req.body.favoriteGenre,
   });
 
   // the following saves the user and generates a JWT (JSON Web Token) for that user.
-  await user.save(function(err,result){
-    if (err){
+  await user.save(function (err, result) {
+    if (err) {
       console.log(err);
       res.status(500).json({ message: err });
-    }
-    else{
+    } else {
       res.status(200).json(result);
     }
   });
 });
 
 router.post("/signInUser", async (req, res) => {
-  const foundUser = await User.findOne({username: req.body.username});
+  const foundUser = await User.findOne({ username: req.body.username });
 
   if (!foundUser) {
     res.status(501).send("User not found.");
     return;
   }
 
-  const passwordMatch = await bcrypt.compare(req.body.password, foundUser.password);
+  const passwordMatch = await bcrypt.compare(
+    req.body.password,
+    foundUser.password
+  );
 
   if (passwordMatch) {
     req.session.isAuth = true;
     res.status(200).json({
-      username: foundUser.username,
+      user: foundUser,
     });
-  } 
-  else {
+  } else {
     res.status(500).send("Incorrect password");
   }
 });
