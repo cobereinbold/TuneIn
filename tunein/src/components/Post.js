@@ -29,8 +29,8 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
     <>
       <Container>
         <Group className='username'>
-          <Avatar src={user.profilePicture} alt={user.userName} radius='xl' />
-          <Text fz='lg'>{user.userName}</Text>
+          <Avatar src={user.profilePicture} alt={user.username} radius='xl' />
+          <Text fz='lg'>{user.username}</Text>
         </Group>
         <Space h='sm' />
         <Center>
@@ -49,7 +49,7 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
         </Group>
         <Group spacing='none' ta='left'>
           <Text fz='md' color='spGreen'>
-            {user.userName + ":"}
+            {user.username + ":"}
           </Text>
           <Text fz='md' color='white'>
             {caption}
@@ -66,16 +66,7 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
         title='Listen on Spotify?'
       >
         <Center>
-          {/* <Button
-            onClick={() => {
-              window.open(songInfo.spotifyLink, "_blank");
-              setModalOpen(false);
-            }}
-          >
-
-            Go to Spotify
-          </Button> */}
-          <SpotifyButton link={songInfo.spotifyLink} />
+          <SpotifyButton link={songInfo.songLink} />
         </Center>
       </Modal>
       <Modal
@@ -85,14 +76,14 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
         centered
       >
         <Group spacing='none'>
-          <Text color='spGreen'>{user.userName + ":"}</Text>
+          <Text color='spGreen'>{user.username + ":"}</Text>
           <Text color='white'>{caption}</Text>
         </Group>
         {comments.map((comment) => {
           return (
             <>
               <Group spacing='none'>
-                <Text color='spGreen'>{comment.userName + ":"}</Text>
+                <Text color='spGreen'>{comment.username + ":"}</Text>
                 <Text>{comment.comment}</Text>
               </Group>
             </>
