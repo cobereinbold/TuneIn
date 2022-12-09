@@ -39,7 +39,9 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
       <Card onClick={() => setModalOpen(true)} className='song-card'>
         <Card.Section>
           <Image src={image} alt={name} height={160} />
-          <Text fz='lg'>{name + ": " + getArtistNames()}</Text>
+          <Text fz='lg' ta='center'>
+            {name + ": " + getArtistNames()}
+          </Text>
         </Card.Section>
       </Card>
       <Modal
