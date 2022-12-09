@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   Image,
@@ -12,10 +13,13 @@ import {
 } from "@mantine/core";
 import SpotifyButton from "./SpotifyButton";
 import "../css/SongCard.css";
+import { ObjectId } from "bson";
 
 const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [caption, setCaption] = useState("");
+  const user = JSON.parse(localStorage.getItem("user")).user;
 
   const getArtistNames = () => {
     if (artist.length == 1) {
@@ -32,6 +36,32 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
       }
       return result;
     }
+  };
+
+  const post = () => {
+    fetch("http://localhost:5000/post/createPost/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: ObjectId(user._id),
+        username: user.username,
+        profilePic: "Test",
+        song: name,
+        artist: getArtistNames(),
+        songLink: spotifyLink,
+        songImage: image,
+        caption: caption,
+      }),
+    }).then((response) => {
+      if (response.status === 200) {
+        console.log("Success");
+        let today = new Date();
+        let newUser = { ...user, posted: today.toDateString() };
+        localStorage.setItem("user", JSON.stringify(newUser));
+        setModalOpen(false);
+        navigate("/home");
+      }
+    });
   };
 
   return (
@@ -87,7 +117,12 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
         ></TextInput>
         <Space h='md' />
         <Center>
-          <Button disabled={caption === "" ? true : false}>Post</Button>
+          <Button
+            disabled={caption === "" ? true : false}
+            onClick={() => post()}
+          >
+            Post
+          </Button>
         </Center>
       </Modal>
     </>
