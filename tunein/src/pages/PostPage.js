@@ -4,6 +4,7 @@ import SideBar from "../components/SideBar";
 import {
   AppShell,
   Button,
+  LoadingOverlay,
   SimpleGrid,
   Space,
   TextInput,
@@ -18,36 +19,45 @@ const PostPage = () => {
   const CLIENT_SECRET = "5e0dc7042cab4e2b8dea438466aaab4f";
 
   const [token, setToken] = useState();
-
   const [searched, setSearched] = useState(false);
   const [searchVal, setSearchVal] = useState("");
-
   const [searchResults, setSearchResults] = useState([]);
+  const [posted, setPosted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
+    let today = new Date();
+    today = today.toDateString();
+
+    let token = "";
     if (!loggedInUser) {
       navigate("/");
     }
-    let token = "";
-    const authParams = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body:
-        "grant_type=client_credentials&client_id=" +
-        CLIENT_ID +
-        "&client_secret=" +
-        CLIENT_SECRET,
-    };
-    fetch("https://accounts.spotify.com/api/token", authParams)
-      .then((result) => result.json())
-      .then((data) => {
-        setToken(data.access_token);
-        token = data.access_token;
-        loadTop20(data.access_token);
-      });
+
+    if (today === JSON.parse(localStorage.getItem("user")).posted) {
+      setPosted(true);
+      setLoading(false);
+    } else {
+      const authParams = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body:
+          "grant_type=client_credentials&client_id=" +
+          CLIENT_ID +
+          "&client_secret=" +
+          CLIENT_SECRET,
+      };
+      fetch("https://accounts.spotify.com/api/token", authParams)
+        .then((result) => result.json())
+        .then((data) => {
+          setToken(data.access_token);
+          token = data.access_token;
+          loadTop20(data.access_token);
+        });
+    }
   }, []);
 
   async function loadTop20(authToken = token) {
@@ -78,6 +88,7 @@ const PostPage = () => {
           });
         });
         setSearchResults(res);
+        setLoading(false);
       });
   }
 
@@ -117,58 +128,68 @@ const PostPage = () => {
 
   return (
     <AppShell navbar={<SideBar activePage='POST' />}>
-      <Title order={1}>Search for a Song</Title>
-      <TextInput
-        value={searchVal}
-        onChange={(e) => setSearchVal(e.currentTarget.value)}
-        label='Search'
-        onKeyPress={(event) => {
-          if (event.key === "Enter") {
-            search(searchVal);
-            setSearched(true);
-          }
-        }}
-      />
-      <Space h='md' />
-      <Button
-        onClick={() => {
-          if (searchVal === "") {
-            loadTop20();
-            setSearched(false);
-          } else {
-            search(searchVal);
-            setSearched(true);
-          }
-        }}
-      >
-        Search
-      </Button>
-      <Space h='lg' />
-      {!searched && (
-        <Title order={3} ta='center'>
-          Top 20 Global Tracks
+      {<LoadingOverlay visible={loading} overlayOpacity={1}></LoadingOverlay>}
+      {!posted && (
+        <>
+          <Title order={1}>Search for a Song</Title>
+          <TextInput
+            value={searchVal}
+            onChange={(e) => setSearchVal(e.currentTarget.value)}
+            label='Search'
+            onKeyPress={(event) => {
+              if (event.key === "Enter") {
+                search(searchVal);
+                setSearched(true);
+              }
+            }}
+          />
+          <Space h='md' />
+          <Button
+            onClick={() => {
+              if (searchVal === "") {
+                loadTop20();
+                setSearched(false);
+              } else {
+                search(searchVal);
+                setSearched(true);
+              }
+            }}
+          >
+            Search
+          </Button>
+          <Space h='lg' />
+          {!searched && (
+            <Title order={3} ta='center'>
+              Top 20 Global Tracks
+            </Title>
+          )}
+          {searched && (
+            <Title order={3} ta='center'>
+              {`Top 20 Search Results for: "${searchVal}"`}
+            </Title>
+          )}
+          <Space h='md' />
+          <SimpleGrid
+            cols={4}
+            spacing='xl'
+            breakpoints={[
+              { maxWidth: 1800, cols: 4, spacing: "xl" },
+              { maxWidth: 1500, cols: 3, spacing: "xl" },
+              { maxWidth: 1200, cols: 2, spacing: "lg" },
+              { maxWidth: 900, cols: 1, spacing: "sm" },
+            ]}
+          >
+            {searchResults.map((song) => {
+              return <SongCard {...song} />;
+            })}
+          </SimpleGrid>
+        </>
+      )}
+      {posted && (
+        <Title order={1}>
+          You've already posted today, come back tomorrow!
         </Title>
       )}
-      {searched && (
-        <Title order={3} ta='center'>
-          {`Top 20 Search Results for: "${searchVal}"`}
-        </Title>
-      )}
-      <Space h='md' />
-      <SimpleGrid
-        cols={4}
-        spacing='xl'
-        breakpoints={[
-          { maxWidth: 1800, cols: 4, spacing: "xl" },
-          { maxWidth: 1500, cols: 3, spacing: "xl" },
-          { maxWidth: 1200, cols: 2, spacing: "lg" },
-          { maxWidth: 900, cols: 1, spacing: "sm" },
-        ]}
-      >
-        {searchResults.map((song) => {
-          return <SongCard {...song} />;
-        })}
-      </SimpleGrid>
     </AppShell>
   );
 };
