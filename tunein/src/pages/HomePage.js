@@ -1,13 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Group,
-  Center,
-  Container,
-  Stack,
-  AppShell,
-  Space,
-} from "@mantine/core";
+import { Stack, AppShell } from "@mantine/core";
 import SideBar from "../components/SideBar";
 import Post from "../components/Post";
 import songImage1 from "../images/midnights.jpeg";
@@ -17,13 +10,13 @@ const posts = [
   {
     user: {
       id: "1",
-      userName: "Benjamin",
+      username: "Benjamin",
       profilePicture: "",
     },
     songInfo: {
       song: "Anti-Hero",
       artist: "Taylor Swift",
-      spotifyLink:
+      songLink:
         "https://open.spotify.com/track/0V3wPSX9ygBnCm8psDIegu?si=f8bdfd471fb44fdf",
       songImage: songImage1,
     },
@@ -34,11 +27,11 @@ const posts = [
     caption: "LOVING THIS NEW ALBUM!",
     comments: [
       {
-        userName: "billy",
+        username: "billy",
         comment: "cool",
       },
       {
-        userName: "thomas",
+        username: "thomas",
         comment: "I hate this song.",
       },
     ],
@@ -46,13 +39,13 @@ const posts = [
   {
     user: {
       id: "2",
-      userName: "Timothy",
+      username: "Timothy",
       profilePicture: "",
     },
     songInfo: {
       song: "Rich Flex",
       artist: "Drake ft. 21 Savage",
-      spotifyLink:
+      songLink:
         "https://open.spotify.com/track/1bDbXMyjaUIooNwFE9wn0N?si=b68ca04005034725",
       songImage: songImage2,
     },
@@ -63,11 +56,11 @@ const posts = [
     caption: "21 can you do sum for me?",
     comments: [
       {
-        userName: "billy",
+        username: "billy",
         comment: "cool",
       },
       {
-        userName: "thomas",
+        username: "thomas",
         comment: "I hate this song.",
       },
     ],
@@ -76,6 +69,7 @@ const posts = [
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [dailyPosts, setDailyPosts] = useState([]);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
@@ -86,12 +80,20 @@ const HomePage = () => {
     }
   }, []);
 
-  const retrievePosts = () => {};
+  const retrievePosts = () => {
+    fetch(`http://localhost:5000/post/getAllPosts/`, {
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => response.json())
+      .then((posts) => {
+        setDailyPosts(posts);
+      });
+  };
 
   return (
     <AppShell navbar={<SideBar activePage='HOME' />}>
       <Stack justify='flex-start'>
-        {posts.map((post) => {
+        {dailyPosts.reverse().map((post) => {
           return <Post {...post} />;
         })}
       </Stack>
