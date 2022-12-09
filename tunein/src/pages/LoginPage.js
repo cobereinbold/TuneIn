@@ -25,7 +25,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [successCreated, setSuccessCreated] = useState(false);
-  const [invalidPassword, setInvalidPassword] = useState(false);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
@@ -60,15 +59,19 @@ const LoginPage = () => {
           console.log("Signed in!");
           localStorage.setItem("authenticated", true);
           navigate("/home");
+          return response.json();
         } else if (response.status === 501) {
           console.log("Sign in failed.");
           loginForm.setErrors({ username: "Invalid username" });
+          return;
         } else {
           console.log("Sign in failed.");
           loginForm.setErrors({ password: "Invalid password" });
+          return;
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .then((user) => localStorage.setItem("user", JSON.stringify(user)));
   };
 
   const signUpForm = useForm({
