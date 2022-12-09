@@ -20,6 +20,7 @@ router.post("/createUser", async (req, res) => {
   }
 
   const encryptedPassword = await bcrypt.hash(req.body.password, 10);
+  const date = new Date();
 
   const user = new User({
     username: req.body.username,
@@ -28,6 +29,7 @@ router.post("/createUser", async (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     favoriteGenre: req.body.favoriteGenre,
+    dateJoined: date.toDateString(),
   });
 
   // the following saves the user and generates a JWT (JSON Web Token) for that user.
@@ -62,6 +64,44 @@ router.post("/signInUser", async (req, res) => {
   } else {
     res.status(500).send("Incorrect password");
   }
+});
+
+router.get("/hasPostedToday", async (req,res) => {
+  const foundUser = await User.findOne({ _id: req.body.userId });
+  const date = new Date();
+
+  if(foundUser.dateLastPosted == date.toDateString()){
+    res.status(500).send("User has posted today"); // Returns error code 500
+    return;
+  }
+  else {
+    res.status(200).send("User has not posted today"); // Returns success code 200
+  }
+
+});
+
+router.put("/updateUser", async (req,res) => {
+  const foundUser = await User.findOne({ _id: req.body.userId });
+  
+  const encryptedPassword = await bcrypt.hash(req.body.password, 10);
+
+  foundUser.username = req.body.username;
+  foundUser.password = encryptedPassword;
+  foundUser.firstName = req.body.firstName;
+  foundUser.lastName = req.body.lastName;
+  foundUser.favoriteGenre = req.body.favoriteGenre;
+  foundUser.profilePicture = req.body.profilePicture;
+
+  // the following saves the user and generates a JWT (JSON Web Token) for that user.
+  await foundUser.save(function (err, result) {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ message: err });
+    } else {
+      res.status(200).json(result);
+    }
+  });
+
 });
 
 module.exports = router;

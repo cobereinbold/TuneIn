@@ -81,6 +81,7 @@ const LoginPage = () => {
       firstName: "",
       lastName: "",
       password: "",
+      favoriteGenre: "",
     },
 
     validate: {
@@ -89,6 +90,7 @@ const LoginPage = () => {
       firstName: (value) => (value === "" ? "Mandatory field" : null),
       lastName: (value) => (value === "" ? "Mandatory field" : null),
       password: (value) => (value === "" ? "Mandatory field" : null),
+      favoriteGenre: (value) => (value === "" ? "Mandatory field" : null),
     },
   });
 
@@ -102,6 +104,7 @@ const LoginPage = () => {
         email: values.email,
         firstName: values.firstName,
         lastName: values.lastName,
+        favoriteGenre: values.favoriteGenre,
       }),
     })
       .then((response) => {
@@ -201,6 +204,13 @@ const LoginPage = () => {
               label='Password'
               placeholder='Password'
               {...signUpForm.getInputProps("password")}
+            />
+            <Space h='lg' />
+            <TextInput
+              withAsterisk
+              label='Favorite Genre'
+              placeholder='Country'
+              {...signUpForm.getInputProps("favoriteGenre")}
             />
             <Space h='lg' />
             <FileInput

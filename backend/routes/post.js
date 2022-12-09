@@ -4,7 +4,22 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 
 router.post("/createPost", async (req, res) => {
-  //Creates ne post object
+
+  const user = await User.findOne({_id: req.body.userId});
+  const date = new Date();
+
+  if(user.dateLastPosted == date.toDateString()){
+    // User already posted today! Return error
+    res.status(501).json({ message: "User already posted today" });
+    return;
+  }
+  else{
+    user.dateLastPosted = date.toDateString();
+    user.daysPosted += 1;
+    await user.save();
+  }
+
+  //Creates new post object
   const post = new Post({
     user: {
       userId: req.body.userId,
@@ -63,12 +78,16 @@ router.put("/likePost", async (req, res) => {
 
 router.get("/getAllPostsById", async (req, res) => {
   const posts = await Post.find({"user.userId": req.body.userId});
-  console.log(posts);
   res.status(200).json(posts);
 });
 
 router.get("/getAllPosts", async (req, res) => {
   const posts = await Post.find();
+  res.status(200).json(posts);
+});
+
+router.get("/getLikedPosts", async (req, res) => {
+  const posts = await Post.find({"likes.users": req.body.userId});
   res.status(200).json(posts);
 });
 
