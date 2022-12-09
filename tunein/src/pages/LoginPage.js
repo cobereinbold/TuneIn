@@ -13,16 +13,18 @@ import {
   Modal,
   FileInput,
   Center,
+  Notification,
+  Group,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconUpload } from "@tabler/icons";
+import { IconCheck, IconUpload } from "@tabler/icons";
 import "../css/LoginPage.css";
 import logo from "../images/tuneInLogo.png";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
-  const [invalidPassword, setInvalidPassword] = useState(false);
+  const [successCreated, setSuccessCreated] = useState(false);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
@@ -57,15 +59,19 @@ const LoginPage = () => {
           console.log("Signed in!");
           localStorage.setItem("authenticated", true);
           navigate("/home");
+          return response.json();
         } else if (response.status === 501) {
           console.log("Sign in failed.");
           loginForm.setErrors({ username: "Invalid username" });
+          return;
         } else {
           console.log("Sign in failed.");
           loginForm.setErrors({ password: "Invalid password" });
+          return;
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .then((user) => localStorage.setItem("user", JSON.stringify(user)));
   };
 
   const signUpForm = useForm({
@@ -101,6 +107,7 @@ const LoginPage = () => {
       .then((response) => {
         if (response.status === 200) {
           console.log("User created successfully!");
+          setSuccessCreated(true);
         } else if (response.status === 502) {
           // Email already used
           console.log("User could not be created. \nError: " + response);
@@ -118,6 +125,7 @@ const LoginPage = () => {
   return (
     <>
       <CustomHeader />
+      <Space h='lg' />
       <AspectRatio
         ratio={1080 / 1080}
         sx={{ maxWidth: "20%", marginTop: 50 }}
@@ -150,7 +158,11 @@ const LoginPage = () => {
       </Box>
       <Modal
         opened={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={() => {
+          signUpForm.reset();
+          setModalOpen(false);
+          setSuccessCreated(false);
+        }}
         title='Create an Account'
         centered
       >
@@ -203,6 +215,18 @@ const LoginPage = () => {
             </Center>
           </form>
         </Box>
+        <Space h='md' />
+        <Group hidden={!successCreated} position='center'>
+          <Notification
+            icon={<IconCheck size={20} />}
+            color='spGreen'
+            title='User Created'
+            onClose={() => setSuccessCreated(false)}
+            disallowClose
+          >
+            You can now sign into your account
+          </Notification>
+        </Group>
       </Modal>
     </>
   );

@@ -16,6 +16,7 @@ import {
   FileInput,
   Button,
   Group,
+  Grid,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconUpload, IconHeart, IconDots } from "@tabler/icons";
@@ -287,11 +288,27 @@ const AccountPage = () => {
 
   const updateAccount = (values) => {};
 
+  const logout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("authenticated");
+    navigate("/");
+  };
+
   return (
     <AppShell navbar={<SideBar activePage='ACCOUNT' />}>
-      <Group position='right'>
-        <Button onClick={() => setEditModalOpen(true)}>Edit Account</Button>
-      </Group>
+      <Grid>
+        <Grid.Col span={3}>
+          <Center>
+            <Button onClick={() => setEditModalOpen(true)}>Edit Account</Button>
+          </Center>
+        </Grid.Col>
+        <Grid.Col span={3} offset={6}>
+          {/** Temp Logout TODO: Add option to logout from navbar*/}
+          <Center>
+            <Button onClick={() => logout()}>Logout</Button>
+          </Center>
+        </Grid.Col>
+      </Grid>
       <Center>
         <Image
           src={
