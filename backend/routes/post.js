@@ -38,4 +38,27 @@ router.post("/createPost", async (req, res) => {
   });
 });
 
+router.put("/likePost", async (req, res) => {
+  
+  const post = await Post.findOne({_id: req.body.postId});
+
+  if(post == null){
+    res.status(502).send("Could not find post: " + req.body.postId);
+    return;
+  }
+
+  post.likes.count = post.likes.count + 1;
+  post.likes.users.push(req.body.userId); // Push object onto array
+
+  //Saves new post object to the database
+  await post.save(async function (err, result) {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ message: err });
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+
 module.exports = router;
