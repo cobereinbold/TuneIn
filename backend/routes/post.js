@@ -61,4 +61,15 @@ router.put("/likePost", async (req, res) => {
   });
 });
 
+router.get("/getAllPostsById", async (req, res) => {
+  const posts = await Post.find({"user.userId": req.body.userId});
+  console.log(posts);
+  res.status(200).json(posts);
+});
+
+router.get("/getAllPosts", async (req, res) => {
+  const posts = await Post.find();
+  res.status(200).json(posts);
+});
+
 module.exports = router;
