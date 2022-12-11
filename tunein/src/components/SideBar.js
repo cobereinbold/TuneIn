@@ -24,9 +24,11 @@ const SideBar = (props) => {
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState(props.activePage);
-  let user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState({});
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
 
   return (
     <Navbar height={"100vh"} p='xs' width={{ base: 300 }} className='sidebar'>
