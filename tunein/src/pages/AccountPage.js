@@ -287,10 +287,9 @@ const AccountPage = () => {
     if (!loggedInUser) {
       navigate("/");
       return;
-    } else {
-      setUser(localStorage.getItem("user"));
-      getPreviousPosts();
     }
+    setUser(JSON.parse(localStorage.getItem("user")));
+    getPreviousPosts(JSON.parse(localStorage.getItem("user"))._id);
   }, []);
 
   const updateAccount = (values) => {
@@ -332,12 +331,12 @@ const AccountPage = () => {
   };
 
   /** TODO: Function to get user's previous posts */
-  const getPreviousPosts = () => {
+  const getPreviousPosts = (userId) => {
     fetch(`http://localhost:5000/post/getAllPostsById/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        userId: ObjectId(user._id),
+        userId: ObjectId(userId),
       }),
     })
       .then((response) => response.json())
