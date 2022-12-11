@@ -15,6 +15,7 @@ import {
   Center,
   Notification,
   Group,
+  Select,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconCheck, IconUpload } from "@tabler/icons";
@@ -57,8 +58,6 @@ const LoginPage = () => {
       .then((response) => {
         if (response.status === 200) {
           console.log("Signed in!");
-          localStorage.setItem("authenticated", true);
-          navigate("/home");
           return response.json();
         } else if (response.status === 501) {
           console.log("Sign in failed.");
@@ -71,7 +70,11 @@ const LoginPage = () => {
         }
       })
       .catch((err) => console.log(err))
-      .then((user) => localStorage.setItem("user", JSON.stringify(user)));
+      .then((user) => {
+        localStorage.setItem("user", JSON.stringify(user.user));
+        localStorage.setItem("authenticated", true);
+        navigate("/home");
+      });
   };
 
   const signUpForm = useForm({
@@ -206,10 +209,26 @@ const LoginPage = () => {
               {...signUpForm.getInputProps("password")}
             />
             <Space h='lg' />
-            <TextInput
+            <Select
               withAsterisk
               label='Favorite Genre'
-              placeholder='Country'
+              placeholder='Pick one'
+              data={[
+                { value: "Afro", label: "Afro" },
+                { value: "Alternative", label: "Alternative" },
+                { value: "Classical", label: "Classical" },
+                { value: "Country", label: "Country" },
+                { value: "EDM", label: "EDM" },
+                { value: "Folk", label: "Folk" },
+                { value: "Hip-Hop", label: "Hip-Hop" },
+                { value: "Indie", label: "Indie" },
+                { value: "Jazz", label: "Jazz" },
+                { value: "Latin", label: "Latin" },
+                { value: "Pop", label: "Pop" },
+                { value: "R&B", label: "R&B" },
+                { value: "Rock", label: "Rock" },
+                { value: "Soul", label: "Soul" },
+              ]}
               {...signUpForm.getInputProps("favoriteGenre")}
             />
             <Space h='lg' />
