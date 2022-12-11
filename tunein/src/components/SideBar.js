@@ -87,7 +87,7 @@ const SideBar = (props) => {
             }}
           >
             <Group>
-              <Avatar src={""} radius='xl' />
+              <Avatar src={user.profilePicture} radius='xl' />
               <Box sx={{ flex: 1 }}>
                 <Text size='sm' weight={500}>
                   {"@" + user.username}
