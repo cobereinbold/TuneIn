@@ -33,6 +33,7 @@ const PostPage = () => {
     let token = "";
     if (!loggedInUser) {
       navigate("/");
+      return;
     }
 
     if (today === JSON.parse(localStorage.getItem("user")).dateLastPosted) {
