@@ -29,7 +29,7 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
     <>
       <Container>
         <Group className='username'>
-          <Avatar src={user.profilePicture} alt={user.username} radius='xl' />
+          <Avatar src={user.profilePic} alt={user.username} radius='xl' />
           <Text fz='lg'>{user.username}</Text>
         </Group>
         <Space h='sm' />

@@ -19,7 +19,7 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [caption, setCaption] = useState("");
-  const user = JSON.parse(localStorage.getItem("user")).user;
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const getArtistNames = () => {
     if (artist.length == 1) {
@@ -45,7 +45,7 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
       body: JSON.stringify({
         userId: ObjectId(user._id),
         username: user.username,
-        profilePic: "Test",
+        profilePic: user.profilePicture,
         song: name,
         artist: getArtistNames(),
         songLink: spotifyLink,
@@ -56,7 +56,7 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
       if (response.status === 200) {
         console.log("Success");
         let today = new Date();
-        let newUser = { ...user, posted: today.toDateString() };
+        let newUser = { ...user, dateLastPosted: today.toDateString() };
         localStorage.setItem("user", JSON.stringify(newUser));
         setModalOpen(false);
         navigate("/home");

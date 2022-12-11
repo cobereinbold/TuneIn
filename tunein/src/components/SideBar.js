@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Text,
@@ -24,6 +24,11 @@ const SideBar = (props) => {
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState(props.activePage);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
 
   return (
     <Navbar height={"100vh"} p='xs' width={{ base: 300 }} className='sidebar'>
@@ -84,16 +89,13 @@ const SideBar = (props) => {
             }}
           >
             <Group>
-              <Avatar
-                src='https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80'
-                radius='xl'
-              />
+              <Avatar src={user.profilePicture} radius='xl' />
               <Box sx={{ flex: 1 }}>
                 <Text size='sm' weight={500}>
-                  Amy Horsefighter
+                  {"@" + user.username}
                 </Text>
                 <Text color='white' size='xs'>
-                  ahorsefighter@gmail.com
+                  {user.firstName + " " + user.lastName}
                 </Text>
               </Box>
 

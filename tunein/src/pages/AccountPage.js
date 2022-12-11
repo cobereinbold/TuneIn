@@ -21,6 +21,7 @@ import {
 import { useForm } from "@mantine/form";
 import { IconUpload, IconHeart, IconDots } from "@tabler/icons";
 import SideBar from "../components/SideBar";
+import { ObjectId } from "bson";
 import slander from "../images/slander.jpeg";
 import herLoss from "../images/herloss.jpeg";
 import boslen from "../images/boslen.jpeg";
@@ -256,18 +257,20 @@ let defaultSong = {
 
 const AccountPage = () => {
   const navigate = useNavigate();
-
+  const [user, setUser] = useState({});
+  const [previousPosts, setPreviousPosts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(defaultSong);
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const accountForm = useForm({
     initialValues: {
-      email: "",
-      username: "",
-      firstName: "",
-      lastName: "",
+      email: user.email,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
       password: "",
+      profilePicture: "",
     },
 
     validate: {
@@ -283,15 +286,73 @@ const AccountPage = () => {
     const loggedInUser = localStorage.getItem("authenticated");
     if (!loggedInUser) {
       navigate("/");
+      return;
     }
+    setUser(JSON.parse(localStorage.getItem("user")));
+    getPreviousPosts(JSON.parse(localStorage.getItem("user"))._id);
   }, []);
 
-  const updateAccount = (values) => {};
+  const updateAccount = (values) => {
+    fetch(`http://localhost:5000/post/getAllPostsById/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: ObjectId(user._id),
+        username: values.username,
+        password: values.password,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        profilePicture: "",
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("success");
+        } else {
+          console.log(response.status);
+        }
+      })
+      .then((user) => {
+        localStorage.removeItem("user");
+        localStorage.setItem("user", {
+          ...user,
+          username: values.username,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          profilePicture: "",
+        });
+      });
+  };
 
   const logout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("authenticated");
     navigate("/");
+  };
+
+  /** TODO: Function to get user's previous posts */
+  const getPreviousPosts = (userId) => {
+    fetch(`http://localhost:5000/post/getAllPostsById/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: ObjectId(userId),
+      }),
+    })
+      .then((response) => response.json())
+      .then((posts) => {
+        let res = [];
+        posts.map((post) => {
+          res.push({
+            date: post.date,
+            songInfo: post.songInfo,
+            caption: post.caption,
+            likes: post.likes,
+            comments: post.comments,
+          });
+        });
+        setPreviousPosts(res);
+      });
   };
 
   return (
@@ -311,9 +372,7 @@ const AccountPage = () => {
       </Grid>
       <Center>
         <Image
-          src={
-            "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
-          }
+          src={user.profilePicture}
           width={200}
           height={200}
           radius='50%'
@@ -324,16 +383,16 @@ const AccountPage = () => {
       <Center>
         <Stack>
           <Title ta='center' order={1}>
-            @Amy
+            {"@" + user.username}
           </Title>
           <Title ta='center' order={2}>
-            Amy Horsefighter
+            {user.firstName + " " + user.lastName}
           </Title>
           <Title ta='center' order={3}>
-            Favourite Genre: EDM
+            Favourite Genre: {user.favoriteGenre}
           </Title>
           <Title ta='center' order={3}>
-            Joined: Nov. 2022
+            Joined: {user.dateJoined}
           </Title>
         </Stack>
       </Center>
@@ -349,7 +408,7 @@ const AccountPage = () => {
             { maxWidth: 900, cols: 1, spacing: "sm" },
           ]}
         >
-          {pastPosts.map((post) => {
+          {previousPosts.map((post) => {
             return (
               <Image
                 src={post.songInfo.songImage}
@@ -449,7 +508,7 @@ const AccountPage = () => {
             />
             <Space h='xl' />
             <Center>
-              <Button type='submit'>Update</Button>
+              <Button type='submit'>Update Info</Button>
             </Center>
           </form>
         </Box>
