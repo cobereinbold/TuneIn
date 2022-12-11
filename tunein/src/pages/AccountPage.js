@@ -21,6 +21,7 @@ import {
 import { useForm } from "@mantine/form";
 import { IconUpload, IconHeart, IconDots } from "@tabler/icons";
 import SideBar from "../components/SideBar";
+import { ObjectId } from "bson";
 import slander from "../images/slander.jpeg";
 import herLoss from "../images/herloss.jpeg";
 import boslen from "../images/boslen.jpeg";
@@ -257,7 +258,7 @@ let defaultSong = {
 const AccountPage = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
-
+  const [previousPosts, setPreviousPosts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(defaultSong);
 
@@ -285,6 +286,7 @@ const AccountPage = () => {
     if (!loggedInUser) {
       navigate("/");
     }
+    getPreviousPosts();
   }, []);
 
   const updateAccount = (values) => {};
@@ -296,7 +298,29 @@ const AccountPage = () => {
   };
 
   /** TODO: Function to get user's previous posts */
-  const getPreviousPosts = () => {};
+  const getPreviousPosts = () => {
+    fetch(`http://localhost:5000/post/getAllPostsById/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: ObjectId(user._id),
+      }),
+    })
+      .then((response) => response.json())
+      .then((posts) => {
+        let res = [];
+        posts.map((post) => {
+          res.push({
+            date: post.date,
+            songInfo: post.songInfo,
+            caption: post.caption,
+            likes: post.likes,
+            comments: post.comments,
+          });
+        });
+        setPreviousPosts(res);
+      });
+  };
 
   return (
     <AppShell navbar={<SideBar activePage='ACCOUNT' />}>
@@ -351,7 +375,7 @@ const AccountPage = () => {
             { maxWidth: 900, cols: 1, spacing: "sm" },
           ]}
         >
-          {pastPosts.map((post) => {
+          {previousPosts.map((post) => {
             return (
               <Image
                 src={post.songInfo.songImage}
