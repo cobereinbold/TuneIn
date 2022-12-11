@@ -256,6 +256,7 @@ let defaultSong = {
 
 const AccountPage = () => {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(defaultSong);
@@ -263,10 +264,10 @@ const AccountPage = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const accountForm = useForm({
     initialValues: {
-      email: "",
-      username: "",
-      firstName: "",
-      lastName: "",
+      email: user.email,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
       password: "",
     },
 
@@ -294,6 +295,9 @@ const AccountPage = () => {
     navigate("/");
   };
 
+  /** TODO: Function to get user's previous posts */
+  const getPreviousPosts = () => {};
+
   return (
     <AppShell navbar={<SideBar activePage='ACCOUNT' />}>
       <Grid>
@@ -311,9 +315,7 @@ const AccountPage = () => {
       </Grid>
       <Center>
         <Image
-          src={
-            "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
-          }
+          src={user.profilePicture}
           width={200}
           height={200}
           radius='50%'
@@ -324,16 +326,16 @@ const AccountPage = () => {
       <Center>
         <Stack>
           <Title ta='center' order={1}>
-            @Amy
+            {"@" + user.username}
           </Title>
           <Title ta='center' order={2}>
-            Amy Horsefighter
+            {user.firstName + " " + user.lastName}
           </Title>
           <Title ta='center' order={3}>
-            Favourite Genre: EDM
+            Favourite Genre: {user.favoriteGenre}
           </Title>
           <Title ta='center' order={3}>
-            Joined: Nov. 2022
+            Joined: {user.dateJoined}
           </Title>
         </Stack>
       </Center>
