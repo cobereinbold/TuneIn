@@ -257,7 +257,7 @@ let defaultSong = {
 
 const AccountPage = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState({});
   const [previousPosts, setPreviousPosts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(defaultSong);
@@ -270,6 +270,7 @@ const AccountPage = () => {
       firstName: user.firstName,
       lastName: user.lastName,
       password: "",
+      profilePicture: "",
     },
 
     validate: {
@@ -285,11 +286,44 @@ const AccountPage = () => {
     const loggedInUser = localStorage.getItem("authenticated");
     if (!loggedInUser) {
       navigate("/");
+      return;
+    } else {
+      setUser(localStorage.getItem("user"));
+      getPreviousPosts();
     }
-    getPreviousPosts();
   }, []);
 
-  const updateAccount = (values) => {};
+  const updateAccount = (values) => {
+    fetch(`http://localhost:5000/post/getAllPostsById/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: ObjectId(user._id),
+        username: values.username,
+        password: values.password,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        profilePicture: "",
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("success");
+        } else {
+          console.log(response.status);
+        }
+      })
+      .then((user) => {
+        localStorage.removeItem("user");
+        localStorage.setItem("user", {
+          ...user,
+          username: values.username,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          profilePicture: "",
+        });
+      });
+  };
 
   const logout = () => {
     localStorage.removeItem("user");
@@ -475,7 +509,7 @@ const AccountPage = () => {
             />
             <Space h='xl' />
             <Center>
-              <Button type='submit'>Update</Button>
+              <Button type='submit'>Update Info</Button>
             </Center>
           </form>
         </Box>
