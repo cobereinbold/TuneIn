@@ -4,16 +4,14 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 
 router.post("/createPost", async (req, res) => {
-
-  const user = await User.findOne({_id: req.body.userId});
+  const user = await User.findOne({ _id: req.body.userId });
   const date = new Date();
 
-  if(user.dateLastPosted == date.toDateString()){
+  if (user.dateLastPosted == date.toDateString()) {
     // User already posted today! Return error
     res.status(501).json({ message: "User already posted today" });
     return;
-  }
-  else{
+  } else {
     user.dateLastPosted = date.toDateString();
     user.daysPosted += 1;
     await user.save();
@@ -21,6 +19,7 @@ router.post("/createPost", async (req, res) => {
 
   //Creates new post object
   const post = new Post({
+    date: date.toDateString(),
     user: {
       userId: req.body.userId,
       username: req.body.username,
@@ -54,10 +53,9 @@ router.post("/createPost", async (req, res) => {
 });
 
 router.put("/likePost", async (req, res) => {
-  
-  const post = await Post.findOne({_id: req.body.postId});
+  const post = await Post.findOne({ _id: req.body.postId });
 
-  if(post == null){
+  if (post == null) {
     res.status(502).send("Could not find post: " + req.body.postId);
     return;
   }
@@ -76,8 +74,8 @@ router.put("/likePost", async (req, res) => {
   });
 });
 
-router.get("/getAllPostsById", async (req, res) => {
-  const posts = await Post.find({"user.userId": req.body.userId});
+router.post("/getAllPostsById", async (req, res) => {
+  const posts = await Post.find({ "user.userId": req.body.userId });
   res.status(200).json(posts);
 });
 
@@ -87,7 +85,7 @@ router.get("/getAllPosts", async (req, res) => {
 });
 
 router.get("/getLikedPosts", async (req, res) => {
-  const posts = await Post.find({"likes.users": req.body.userId});
+  const posts = await Post.find({ "likes.users": req.body.userId });
   res.status(200).json(posts);
 });
 
