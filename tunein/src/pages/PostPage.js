@@ -35,7 +35,7 @@ const PostPage = () => {
       navigate("/");
     }
 
-    if (today === JSON.parse(localStorage.getItem("user")).posted) {
+    if (today === JSON.parse(localStorage.getItem("user")).dateLastPosted) {
       setPosted(true);
       setLoading(false);
     } else {
@@ -112,7 +112,6 @@ const PostPage = () => {
       .then(({ tracks }) => {
         let res = [];
         tracks.items.map((item) => {
-          console.log(item.artists);
           res.push({
             id: item.id,
             name: item.name,
