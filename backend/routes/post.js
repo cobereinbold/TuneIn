@@ -60,8 +60,13 @@ router.put("/likePost", async (req, res) => {
     return;
   }
 
-  post.likes.count = post.likes.count + 1;
-  post.likes.users.push(req.body.userId); // Push object onto array
+  if (post.likes.users.includes(req.body.username)) {
+    res.status(501).json({ message: "Liked already" });
+    return;
+  } else {
+    post.likes.count = post.likes.count + 1;
+    post.likes.users.push(req.body.username); // Push object onto array
+  }
 
   //Saves new post object to the database
   await post.save(async function (err, result) {
