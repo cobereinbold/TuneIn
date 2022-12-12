@@ -29,6 +29,7 @@ router.post("/createUser", async (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     favoriteGenre: req.body.favoriteGenre,
+    profilePicture: req.body.profilePicture,
     dateJoined: date.toDateString(),
   });
 
@@ -66,23 +67,21 @@ router.post("/signInUser", async (req, res) => {
   }
 });
 
-router.get("/hasPostedToday", async (req,res) => {
+router.get("/hasPostedToday", async (req, res) => {
   const foundUser = await User.findOne({ _id: req.body.userId });
   const date = new Date();
 
-  if(foundUser.dateLastPosted == date.toDateString()){
+  if (foundUser.dateLastPosted == date.toDateString()) {
     res.status(500).send("User has posted today"); // Returns error code 500
     return;
-  }
-  else {
+  } else {
     res.status(200).send("User has not posted today"); // Returns success code 200
   }
-
 });
 
-router.put("/updateUser", async (req,res) => {
+router.put("/updateUser", async (req, res) => {
   const foundUser = await User.findOne({ _id: req.body.userId });
-  
+
   const encryptedPassword = await bcrypt.hash(req.body.password, 10);
 
   foundUser.username = req.body.username;
@@ -101,7 +100,6 @@ router.put("/updateUser", async (req,res) => {
       res.status(200).json(result);
     }
   });
-
 });
 
 module.exports = router;

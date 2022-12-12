@@ -26,6 +26,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [successCreated, setSuccessCreated] = useState(false);
+  const [file, setFile] = useState();
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
@@ -97,7 +98,9 @@ const LoginPage = () => {
     },
   });
 
-  const signUpUser = (values) => {
+  const signUpUser = async (values) => {
+    let profilePic = await uploadProfilePic(file);
+    console.log(profilePic);
     fetch(`http://localhost:5000/user/createUser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -107,6 +110,7 @@ const LoginPage = () => {
         email: values.email,
         firstName: values.firstName,
         lastName: values.lastName,
+        profilePicture: profilePic,
         favoriteGenre: values.favoriteGenre,
       }),
     })
@@ -126,6 +130,37 @@ const LoginPage = () => {
         }
       })
       .catch((err) => console.log(err));
+  };
+
+  const uploadProfilePic = async (e) => {
+    let res = "";
+    await getBase64(e).then(async (image) => {
+      let body = new FormData();
+      let imageText = image.replace(/^data:image\/[a-z]+;base64,/, "");
+      body.append("image", imageText);
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=09c3d1cee97f364e5c358f5f6eb16afe`,
+        {
+          method: "POST",
+          body: body,
+        }
+      );
+      const data = await response.json();
+      res = data.data.display_url;
+    });
+    return res;
+  };
+
+  const getBase64 = (file) => {
+    return new Promise((resolve) => {
+      let baseURL = "";
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        baseURL = reader.result;
+        resolve(baseURL);
+      };
+    });
   };
 
   return (
@@ -234,9 +269,11 @@ const LoginPage = () => {
             <Space h='lg' />
             <FileInput
               label='Profile Picture'
+              value={file}
               placeholder='Profile Picture'
               icon={<IconUpload size={14} />}
               accept='image/png,image/jpeg'
+              onChange={setFile}
             />
             <Space h='xl' />
             <Center>

@@ -9,21 +9,45 @@ import {
   Modal,
   Button,
   TextInput,
+  Stack,
 } from "@mantine/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IconHeart } from "@tabler/icons";
 import "../css/Post.css";
 import SpotifyButton from "./SpotifyButton";
+import { ObjectId } from "bson";
 
-const Post = ({ user, songInfo, likes, caption, comments }) => {
+const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(false);
-
+  const [likesOpen, setLikesOpen] = useState(false);
   const [comment, setComment] = useState("");
+  const [currentUser, setUser] = useState({});
+  const [postLikes, setPostLikes] = useState(likes.count);
 
   const commentOnPost = () => {};
 
-  const likePost = () => {};
+  const likePost = () => {
+    fetch("http://localhost:5000/post/likePost/", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        postId: ObjectId(_id),
+        userId: ObjectId(currentUser._id),
+        username: currentUser.username,
+      }),
+    }).then((response) => {
+      if (response.status === 200) {
+        setPostLikes(postLikes + 1);
+      } else if (response.status === 501) {
+        console.log("Already liked");
+      }
+    });
+  };
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
 
   return (
     <>
@@ -44,8 +68,13 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
           />
         </Center>
         <Group spacing='none' className='likes'>
-          <IconHeart size={20} fill={"red"} color='red' />
-          <Text>{likes.count + " Likes"}</Text>
+          <IconHeart
+            size={20}
+            fill={"red"}
+            color='red'
+            onClick={() => likePost()}
+          />
+          <Text onClick={() => setLikesOpen(true)}>{postLikes + " Likes"}</Text>
         </Group>
         <Group spacing='none' ta='left'>
           <Text fz='md' color='spGreen'>
@@ -76,6 +105,7 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
         centered
       >
         <Group spacing='none'>
+          <Avatar src={user.profilePic}></Avatar>
           <Text color='spGreen'>{user.username + ":"}</Text>
           <Text color='white'>{caption}</Text>
         </Group>
@@ -100,6 +130,24 @@ const Post = ({ user, songInfo, likes, caption, comments }) => {
         <Group position='right'>
           <Button disabled={comment === "" ? true : false}>Send</Button>
         </Group>
+      </Modal>
+      <Modal
+        opened={likesOpen}
+        onClose={() => setLikesOpen(false)}
+        centered
+        title={"Likes: " + postLikes}
+      >
+        <Stack>
+          {likes.users.map((user) => {
+            return (
+              <Group>
+                <Text>{user}</Text>
+                <Space w='xl' />
+                <IconHeart size={20} fill='red' color='red' />
+              </Group>
+            );
+          })}
+        </Stack>
       </Modal>
     </>
   );
