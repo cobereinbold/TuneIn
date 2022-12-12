@@ -45,7 +45,7 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
       body: JSON.stringify({
         userId: ObjectId(user._id),
         username: user.username,
-        profilePic: user.profilePicture,
+        profilePic: "test",
         song: name,
         artist: getArtistNames(),
         songLink: spotifyLink,
