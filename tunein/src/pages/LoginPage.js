@@ -27,6 +27,8 @@ const LoginPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [successCreated, setSuccessCreated] = useState(false);
   const [file, setFile] = useState();
+  const [signUpLoading, setSignUpLoading] = useState(false);
+  const [signUpDisabled, setSignUpDisabled] = useState(false);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
@@ -99,7 +101,9 @@ const LoginPage = () => {
   });
 
   const signUpUser = async (values) => {
-    let profilePic = await uploadProfilePic(file);
+    let profilePic = "";
+    console.log(file);
+    if (file) profilePic = await uploadProfilePic(file);
     console.log(profilePic);
     fetch(`http://localhost:5000/user/createUser`, {
       method: "POST",
@@ -115,9 +119,11 @@ const LoginPage = () => {
       }),
     })
       .then((response) => {
+        setSignUpLoading(false);
         if (response.status === 200) {
           console.log("User created successfully!");
           setSuccessCreated(true);
+          setSignUpDisabled(true);
         } else if (response.status === 502) {
           // Email already used
           console.log("User could not be created. \nError: " + response);
@@ -166,33 +172,33 @@ const LoginPage = () => {
   return (
     <>
       <CustomHeader />
-      <Space h='lg' />
+      <Space h="lg" />
       <AspectRatio
         ratio={1080 / 1080}
         sx={{ maxWidth: "20%", marginTop: 50 }}
-        mx='auto'
+        mx="auto"
       >
-        <Image src={logo} alt='Logo' />
+        <Image src={logo} alt="Logo" />
       </AspectRatio>
-      <Box sx={{ maxWidth: 400 }} mx='auto'>
+      <Box sx={{ maxWidth: 400 }} mx="auto">
         <form onSubmit={loginForm.onSubmit((values) => handleSignIn(values))}>
           <TextInput
             withAsterisk
-            label='Username'
-            placeholder='JohnSmith'
+            label="Username"
+            placeholder="JohnSmith"
             {...loginForm.getInputProps("username")}
           ></TextInput>
-          <Space h='lg' />
+          <Space h="lg" />
           <PasswordInput
             withAsterisk
-            label='Password'
-            placeholder='Password'
+            label="Password"
+            placeholder="Password"
             {...loginForm.getInputProps("password")}
           />
-          <Space h='xl' />
-          <Space h='xl' />
-          <Stack spacing='xl'>
-            <Button type='submit'>LOGIN</Button>
+          <Space h="xl" />
+          <Space h="xl" />
+          <Stack spacing="xl">
+            <Button type="submit">LOGIN</Button>
             <Button onClick={() => setModalOpen(true)}>SIGN UP</Button>
           </Stack>
         </form>
@@ -204,50 +210,55 @@ const LoginPage = () => {
           setModalOpen(false);
           setSuccessCreated(false);
         }}
-        title='Create an Account'
+        title="Create an Account"
         centered
       >
-        <Box sx={{ maxWidth: 400 }} mx='auto'>
-          <form onSubmit={signUpForm.onSubmit((values) => signUpUser(values))}>
+        <Box sx={{ maxWidth: 400 }} mx="auto">
+          <form
+            onSubmit={signUpForm.onSubmit((values) => {
+              signUpUser(values);
+              setSignUpLoading(true);
+            })}
+          >
             <TextInput
               withAsterisk
-              label='Email'
-              placeholder='you@gmail.com'
+              label="Email"
+              placeholder="you@gmail.com"
               {...signUpForm.getInputProps("email")}
             ></TextInput>
-            <Space h='lg' />
+            <Space h="lg" />
             <TextInput
               withAsterisk
-              label='Username'
-              placeholder='JohnSmith'
+              label="Username"
+              placeholder="JohnSmith"
               {...signUpForm.getInputProps("username")}
             ></TextInput>
-            <Space h='lg' />
+            <Space h="lg" />
             <TextInput
               withAsterisk
-              label='First Name'
-              placeholder='John'
+              label="First Name"
+              placeholder="John"
               {...signUpForm.getInputProps("firstName")}
             ></TextInput>
-            <Space h='lg' />
+            <Space h="lg" />
             <TextInput
               withAsterisk
-              label='Last Name'
-              placeholder='Smith'
+              label="Last Name"
+              placeholder="Smith"
               {...signUpForm.getInputProps("lastName")}
             ></TextInput>
-            <Space h='lg' />
+            <Space h="lg" />
             <PasswordInput
               withAsterisk
-              label='Password'
-              placeholder='Password'
+              label="Password"
+              placeholder="Password"
               {...signUpForm.getInputProps("password")}
             />
-            <Space h='lg' />
+            <Space h="lg" />
             <Select
               withAsterisk
-              label='Favorite Genre'
-              placeholder='Pick one'
+              label="Favorite Genre"
+              placeholder="Pick one"
               data={[
                 { value: "Afro", label: "Afro" },
                 { value: "Alternative", label: "Alternative" },
@@ -266,27 +277,33 @@ const LoginPage = () => {
               ]}
               {...signUpForm.getInputProps("favoriteGenre")}
             />
-            <Space h='lg' />
+            <Space h="lg" />
             <FileInput
-              label='Profile Picture'
+              label="Profile Picture"
               value={file}
-              placeholder='Profile Picture'
+              placeholder="Profile Picture"
               icon={<IconUpload size={14} />}
-              accept='image/png,image/jpeg'
+              accept="image/png,image/jpeg"
               onChange={setFile}
             />
-            <Space h='xl' />
+            <Space h="xl" />
             <Center>
-              <Button type='submit'>SIGN UP</Button>
+              <Button
+                type="submit"
+                loading={signUpLoading}
+                disabled={signUpDisabled}
+              >
+                SIGN UP
+              </Button>
             </Center>
           </form>
         </Box>
-        <Space h='md' />
-        <Group hidden={!successCreated} position='center'>
+        <Space h="md" />
+        <Group hidden={!successCreated} position="center">
           <Notification
             icon={<IconCheck size={20} />}
-            color='spGreen'
-            title='User Created'
+            color="spGreen"
+            title="User Created"
             onClose={() => setSuccessCreated(false)}
             disallowClose
           >

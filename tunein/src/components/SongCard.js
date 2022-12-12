@@ -45,7 +45,7 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
       body: JSON.stringify({
         userId: ObjectId(user._id),
         username: user.username,
-        profilePic: "test",
+        profilePic: user.profilePicture ? user.profilePicture : "test",
         song: name,
         artist: getArtistNames(),
         songLink: spotifyLink,
@@ -66,10 +66,10 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
 
   return (
     <>
-      <Card onClick={() => setModalOpen(true)} className='song-card'>
+      <Card onClick={() => setModalOpen(true)} className="song-card">
         <Card.Section>
           <Image src={image} alt={name} height={160} />
-          <Text fz='lg' ta='center'>
+          <Text fz="lg" ta="center">
             {name + ": " + getArtistNames()}
           </Text>
         </Card.Section>
@@ -86,11 +86,11 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
         <Center>
           <Image src={image} height={300} width={300} />
         </Center>
-        <Space h='sm' />
+        <Space h="sm" />
         {previewUrl && (
           <Center>
-            <audio controls='controls'>
-              <source src={previewUrl} type='audio/mpeg' />
+            <audio controls="controls">
+              <source src={previewUrl} type="audio/mpeg" />
             </audio>
           </Center>
         )}
@@ -99,23 +99,23 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
             <SpotifyButton link={spotifyLink} />
           </div>
         )}
-        <Space h='sm' />
-        <Group spacing='none' position='center'>
-          <Text color='spGreen' ta='center'>
+        <Space h="sm" />
+        <Group spacing="none" position="center">
+          <Text color="spGreen" ta="center">
             Song Name:{" "}
           </Text>
-          <Text ta='center'>{name}</Text>
+          <Text ta="center">{name}</Text>
         </Group>
-        <Group spacing='none' position='center'>
-          <Text color='spGreen'>Song Artist: </Text>
+        <Group spacing="none" position="center">
+          <Text color="spGreen">Song Artist: </Text>
           <Text>{getArtistNames()}</Text>
         </Group>
         <TextInput
-          label='Caption'
+          label="Caption"
           value={caption}
           onChange={(e) => setCaption(e.target.value)}
         ></TextInput>
-        <Space h='md' />
+        <Space h="md" />
         <Center>
           <Button
             disabled={caption === "" ? true : false}

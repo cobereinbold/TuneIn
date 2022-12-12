@@ -10,6 +10,7 @@ import {
   Button,
   TextInput,
   Stack,
+  Divider,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { IconHeart } from "@tabler/icons";
@@ -24,8 +25,30 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
   const [comment, setComment] = useState("");
   const [currentUser, setUser] = useState({});
   const [postLikes, setPostLikes] = useState(likes.count);
+  const [commentsArray, setCommentsArray] = useState(comments);
 
-  const commentOnPost = () => {};
+  const commentOnPost = () => {
+    fetch("http://localhost:5000/post/addComment/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        postId: ObjectId(_id),
+        userId: ObjectId(currentUser._id),
+        comment: comment,
+      }),
+    }).then((response) => {
+      if (response.status === 201) {
+        setCommentsArray([
+          ...commentsArray,
+          {
+            username: currentUser.username,
+            comment: comment,
+          },
+        ]);
+        setComment("");
+      }
+    });
+  };
 
   const likePost = () => {
     fetch("http://localhost:5000/post/likePost/", {
@@ -49,14 +72,16 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
 
+  useEffect(() => {}, [commentsArray]);
+
   return (
     <>
       <Container>
-        <Group className='username'>
-          <Avatar src={user.profilePic} alt={user.username} radius='xl' />
-          <Text fz='lg'>{user.username}</Text>
+        <Group className="username">
+          <Avatar src={user.profilePic} alt={user.username} radius="xl" />
+          <Text fz="lg">{user.username}</Text>
         </Group>
-        <Space h='sm' />
+        <Space h="sm" />
         <Center>
           <Image
             src={songInfo.songImage}
@@ -64,27 +89,27 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
             height={600}
             caption={songInfo.song + ": " + songInfo.artist}
             onClick={() => setModalOpen(true)}
-            className='song-image'
+            className="song-image"
           />
         </Center>
-        <Group spacing='none' className='likes'>
+        <Group spacing="none" className="likes">
           <IconHeart
             size={20}
             fill={"red"}
-            color='red'
+            color="red"
             onClick={() => likePost()}
           />
           <Text onClick={() => setLikesOpen(true)}>{postLikes + " Likes"}</Text>
         </Group>
-        <Group spacing='none' ta='left'>
-          <Text fz='md' color='spGreen'>
+        <Group spacing="none" ta="left">
+          <Text fz="md" color="spGreen">
             {user.username + ":"}
           </Text>
-          <Text fz='md' color='white'>
+          <Text fz="md" color="white">
             {caption}
           </Text>
         </Group>
-        <Text onClick={() => setCommentsOpen(true)} className='comments'>
+        <Text onClick={() => setCommentsOpen(true)} className="comments">
           View all comments...
         </Text>
       </Container>
@@ -92,7 +117,7 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
         centered
         opened={modalOpen}
         onClose={() => setModalOpen(false)}
-        title='Listen on Spotify?'
+        title="Listen on Spotify?"
       >
         <Center>
           <SpotifyButton link={songInfo.songLink} />
@@ -101,34 +126,42 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
       <Modal
         opened={commentsOpen}
         onClose={() => setCommentsOpen(false)}
-        title='Comments'
+        title="Comments"
         centered
       >
-        <Group spacing='none'>
-          <Avatar src={user.profilePic}></Avatar>
-          <Text color='spGreen'>{user.username + ":"}</Text>
-          <Text color='white'>{caption}</Text>
+        <Group spacing="md">
+          <Text>{user.username + ":"}</Text>
+          <Text color="white">{caption}</Text>
         </Group>
-        {comments.map((comment) => {
+        <Divider my="sm" />
+        {commentsArray.map((comment) => {
           return (
             <>
-              <Group spacing='none'>
-                <Text color='spGreen'>{comment.username + ":"}</Text>
+              <Group spacing="md">
+                <Text color="spGreen">{comment.username + ":"}</Text>
                 <Text>{comment.comment}</Text>
               </Group>
             </>
           );
         })}
-        <Space h='md' />
+        <Space h="md" />
         <TextInput
-          label='Add a comment'
-          placeholder='Comment'
+          label="Add a comment"
+          placeholder="Comment"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
+          onKeyPress={(event) => {
+            if (event.key === "Enter") commentOnPost();
+          }}
         ></TextInput>
-        <Space h='md' />
-        <Group position='right'>
-          <Button disabled={comment === "" ? true : false}>Send</Button>
+        <Space h="md" />
+        <Group position="right">
+          <Button
+            disabled={comment === "" ? true : false}
+            onClick={() => commentOnPost()}
+          >
+            Send
+          </Button>
         </Group>
       </Modal>
       <Modal
@@ -141,9 +174,8 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
           {likes.users.map((user) => {
             return (
               <Group>
+                <IconHeart size={20} fill="red" color="red" />
                 <Text>{user}</Text>
-                <Space w='xl' />
-                <IconHeart size={20} fill='red' color='red' />
               </Group>
             );
           })}
