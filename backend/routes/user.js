@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const Post = require("../models/Post");
 const bcrypt = require("bcryptjs");
 
 router.post("/createUser", async (req, res) => {
@@ -84,12 +85,65 @@ router.put("/updateUser", async (req, res) => {
 
   const encryptedPassword = await bcrypt.hash(req.body.password, 10);
 
-  foundUser.username = req.body.username;
-  foundUser.password = encryptedPassword;
-  foundUser.firstName = req.body.firstName;
-  foundUser.lastName = req.body.lastName;
-  foundUser.favoriteGenre = req.body.favoriteGenre;
-  foundUser.profilePicture = req.body.profilePicture;
+  //Update all the users posts, likes and comments to have the new users username
+  if (foundUser.username !== req.body.username) {
+    //Get all posts with this username
+    const userPosts = await Post.find({ "user.username": foundUser.username });
+
+    //Update all posts for user
+    for (const post of userPosts) {
+      if (post.user.username === foundUser.username) {
+        post.user.username = req.body.username;
+      }
+      post.save();
+    }
+
+    //Get all likes with this username
+    const userLikes = await Post.find({ "likes.users": foundUser.username });
+
+    //Update all likes for user
+    for (const post of userLikes) {
+      for (let like of post.likes.users) {
+        if (like === foundUser.username) {
+          post.likes.users[post.likes.users.indexOf(like)] = req.body.username;
+        }
+      }
+      post.save();
+    }
+
+    //Get all comments with this username
+    const userComments = await Post.find({
+      "comments.username": foundUser.username,
+    });
+
+    //Update all comments for user
+    for (const post of userComments) {
+      for (let comment of post.comments) {
+        if (comment.username === foundUser.username) {
+          post.comments[post.comments.indexOf(comment)].username =
+            req.body.username;
+        }
+      }
+      post.save();
+    }
+  }
+
+  foundUser.username = req.body.username
+    ? req.body.username
+    : foundUser.username;
+  foundUser.password = req.body.password
+    ? encryptedPassword
+    : foundUser.password;
+  foundUser.firstName = req.body.firstName
+    ? req.body.firstName
+    : foundUser.firstName;
+  foundUser.lastName = req.body.lastName
+    ? req.body.lastName
+    : foundUser.lastName;
+  foundUser.favoriteGenre = foundUser.favoriteGenre;
+  foundUser.profilePicture = req.body.profilePicture
+    ? req.body.profilePicture
+    : foundUser.profilePicture;
 
   // the following saves the user and generates a JWT (JSON Web Token) for that user.
   await foundUser.save(function (err, result) {

@@ -293,8 +293,8 @@ const AccountPage = () => {
   }, []);
 
   const updateAccount = (values) => {
-    fetch(`http://localhost:5000/post/getAllPostsById/`, {
-      method: "POST",
+    fetch(`http://localhost:5000/user/updateUser`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         userId: ObjectId(user._id),
@@ -356,7 +356,7 @@ const AccountPage = () => {
   };
 
   return (
-    <AppShell navbar={<SideBar activePage='ACCOUNT' />}>
+    <AppShell navbar={<SideBar activePage="ACCOUNT" />}>
       <Grid>
         <Grid.Col span={3}>
           <Center>
@@ -375,32 +375,32 @@ const AccountPage = () => {
           src={user.profilePicture}
           width={200}
           height={200}
-          radius='50%'
+          radius="50%"
           withPlaceholder
         />
       </Center>
-      <Space h='lg' />
+      <Space h="lg" />
       <Center>
         <Stack>
-          <Title ta='center' order={1}>
+          <Title ta="center" order={1}>
             {"@" + user.username}
           </Title>
-          <Title ta='center' order={2}>
+          <Title ta="center" order={2}>
             {user.firstName + " " + user.lastName}
           </Title>
-          <Title ta='center' order={3}>
+          <Title ta="center" order={3}>
             Favourite Genre: {user.favoriteGenre}
           </Title>
-          <Title ta='center' order={3}>
+          <Title ta="center" order={3}>
             Joined: {user.dateJoined}
           </Title>
         </Stack>
       </Center>
-      <Space h='lg' />
+      <Space h="lg" />
       <Center>
         <SimpleGrid
           cols={4}
-          spacing='xl'
+          spacing="xl"
           breakpoints={[
             { maxWidth: 1800, cols: 4, spacing: "xl" },
             { maxWidth: 1500, cols: 3, spacing: "xl" },
@@ -418,7 +418,7 @@ const AccountPage = () => {
                   setModalOpen(true);
                   setSelectedPost(post);
                 }}
-                className='image'
+                className="image"
               />
             );
           })}
@@ -440,18 +440,18 @@ const AccountPage = () => {
             }
           ></Image>
         </Center>
-        <Space h='md' />
-        <Title order={3} ta='center'>
+        <Space h="md" />
+        <Title order={3} ta="center">
           {selectedPost.songInfo.song + ": " + selectedPost.songInfo.artist}
         </Title>
-        <Text fz='md' ta='center' color='spGreen'>
+        <Text fz="md" ta="center" color="spGreen">
           {selectedPost.caption}
         </Text>
-        <Group spacing='none' position='center'>
-          <IconHeart size={20} fill={"red"} color='red' />
+        <Group spacing="none" position="center">
+          <IconHeart size={20} fill={"red"} color="red" />
           <Text>{selectedPost.likes.count + " Likes"}</Text>
-          <Space w='lg' />
-          <IconDots size={20} color='white' />
+          <Space w="lg" />
+          <IconDots size={20} color="white" />
           <Text>{selectedPost.comments.length + " Comments"}</Text>
         </Group>
       </Modal>
@@ -459,56 +459,56 @@ const AccountPage = () => {
         centered
         opened={editModalOpen}
         onClose={() => setEditModalOpen(false)}
-        title='Edit Account'
+        title="Edit Account"
       >
-        <Box sx={{ maxWidth: 400 }} mx='auto'>
+        <Box sx={{ maxWidth: 400 }} mx="auto">
           <form
             onSubmit={accountForm.onSubmit((values) => updateAccount(values))}
           >
             <TextInput
               withAsterisk
-              label='Email'
-              placeholder='you@gmail.com'
+              label="Email"
+              placeholder="you@gmail.com"
               {...accountForm.getInputProps("email")}
             ></TextInput>
-            <Space h='lg' />
+            <Space h="lg" />
             <TextInput
               withAsterisk
-              label='Username'
-              placeholder='JohnSmith'
+              label="Username"
+              placeholder="JohnSmith"
               {...accountForm.getInputProps("username")}
             ></TextInput>
-            <Space h='lg' />
+            <Space h="lg" />
             <TextInput
               withAsterisk
-              label='First Name'
-              placeholder='John'
+              label="First Name"
+              placeholder="John"
               {...accountForm.getInputProps("firstName")}
             ></TextInput>
-            <Space h='lg' />
+            <Space h="lg" />
             <TextInput
               withAsterisk
-              label='Last Name'
-              placeholder='Smith'
+              label="Last Name"
+              placeholder="Smith"
               {...accountForm.getInputProps("lastName")}
             ></TextInput>
-            <Space h='lg' />
+            <Space h="lg" />
             <PasswordInput
               withAsterisk
-              label='Password'
-              placeholder='Password'
+              label="Password"
+              placeholder="Password"
               {...accountForm.getInputProps("password")}
             />
-            <Space h='lg' />
+            <Space h="lg" />
             <FileInput
-              label='Profile Picture'
-              placeholder='Profile Picture'
+              label="Profile Picture"
+              placeholder="Profile Picture"
               icon={<IconUpload size={14} />}
-              accept='image/png,image/jpeg'
+              accept="image/png,image/jpeg"
             />
-            <Space h='xl' />
+            <Space h="xl" />
             <Center>
-              <Button type='submit'>Update Info</Button>
+              <Button type="submit">Update Info</Button>
             </Center>
           </form>
         </Box>
