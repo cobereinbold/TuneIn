@@ -89,4 +89,36 @@ router.get("/getLikedPosts", async (req, res) => {
   res.status(200).json(posts);
 });
 
+router.post('/addComment', async (req, res) => {
+  //validate request
+  const { userId, postId, comment } = req.body;
+  if(!userId || !postId || !comment) {
+    res.status(400).send('Invalid request.')
+  }
+
+  const postingUser = await User.findById(req.body.userId).exec();
+
+  if(!postingUser) {
+      res.status(500).send('Failed to find user with given id.');
+  }
+
+  const post = await Post.findById(req.body.postId).exec();
+
+  if(!post) {
+      res.status(500).send('Failed to find post with given id.');
+  }
+
+  post.comments.push({username: postingUser.username, comment: req.body.comment});
+
+  await post.save(function(err, result){
+      if (err) {
+          console.log(err);
+          res.status(500).json({ message: err });
+      }
+      else {
+        res.status(201).json(result);
+      }
+  });
+});
+
 module.exports = router;
