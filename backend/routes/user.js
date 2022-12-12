@@ -1,4 +1,3 @@
-//TODO: generate and return cookie upon successful login
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
@@ -34,7 +33,6 @@ router.post("/createUser", async (req, res) => {
     dateJoined: date.toDateString(),
   });
 
-  // the following saves the user and generates a JWT (JSON Web Token) for that user.
   await user.save(function (err, result) {
     if (err) {
       console.log(err);
@@ -145,7 +143,6 @@ router.put("/updateUser", async (req, res) => {
     ? req.body.profilePicture
     : foundUser.profilePicture;
 
-  // the following saves the user and generates a JWT (JSON Web Token) for that user.
   await foundUser.save(function (err, result) {
     if (err) {
       console.log(err);
@@ -153,6 +150,21 @@ router.put("/updateUser", async (req, res) => {
     } else {
       res.status(200).json(result);
     }
+  });
+});
+
+//destroys the session cookie, effectively logging the user out.
+router.post('/logout', (req,res) => {
+  if(req.session.isAuth) {
+
+  }
+  
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send('Logout failed');
+    }
+    res.status(200).send('Logged out successfully');
   });
 });
 
