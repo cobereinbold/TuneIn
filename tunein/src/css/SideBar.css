@@ -6,3 +6,10 @@
   font-family: "Gotham";
   margin-left: 10px;
 }
+
+.burger {
+  position: sticky;
+  top: 0;
+  padding: 20px;
+  margin-top: 7px;
+}

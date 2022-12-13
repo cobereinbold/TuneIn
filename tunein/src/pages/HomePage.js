@@ -86,14 +86,14 @@ const HomePage = () => {
     })
       .then((response) => response.json())
       .then((posts) => {
-        setDailyPosts(posts);
+        setDailyPosts(posts.reverse());
       });
   };
 
   return (
-    <AppShell navbar={<SideBar activePage='HOME' />}>
-      <Stack justify='flex-start'>
-        {dailyPosts.reverse().map((post) => {
+    <AppShell navbar={<SideBar activePage="HOME" />}>
+      <Stack justify="flex-start">
+        {dailyPosts.map((post) => {
           return <Post {...post} />;
         })}
       </Stack>

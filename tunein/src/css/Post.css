@@ -13,3 +13,8 @@
 .comments:hover {
   cursor: pointer;
 }
+
+.song-image {
+  width: 600;
+  height: 600;
+}
