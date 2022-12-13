@@ -9,6 +9,8 @@ import PostPage from "./pages/PostPage";
 import AccountPage from "./pages/AccountPage";
 import UsersPage from "./pages/UsersPage";
 import StatsPage from "./pages/StatsPage";
+import SearchPage from "./pages/SearchPage";
+import ViewAccountPage from "./pages/ViewAccountPage";
 
 const App = () => {
   return (
@@ -58,6 +60,8 @@ const App = () => {
           {/* TODO: make these admin view only */}
           <Route path="users" element={<UsersPage />} />
           <Route path="stats" element={<StatsPage />} />
+          <Route path="search" element={<SearchPage />} />
+          <Route path="viewaccount" element={<ViewAccountPage />} />
         </Routes>
       </BrowserRouter>
     </MantineProvider>

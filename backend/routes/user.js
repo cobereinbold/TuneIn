@@ -156,8 +156,49 @@ router.put("/updateUser", async (req, res) => {
   });
 });
 
+router.get("/getSomeUsers", async (req, res) => {
+  const users = await User.find();
+  users_info = [];
+
+  for (index in users) {
+    if (!users[index].isAdmin) {
+      users_info.push({
+        _id: users[index]._id.toHexString(),
+        username: users[index].username,
+        firstName: users[index].firstName,
+        lastName: users[index].lastName,
+        profilePicture: users[index].profilePicture,
+      });
+    }
+  }
+  res.status(200).json(users_info);
+});
+
+router.put("/searchUser", async (req, res) => {
+  const users = await User.find({ username: req.body.username });
+  users_info = [];
+
+  for (index in users) {
+    if (!users[index].isAdmin) {
+      users_info.push({
+        _id: users[index]._id.toHexString(),
+        username: users[index].username,
+        firstName: users[index].firstName,
+        lastName: users[index].lastName,
+        profilePicture: users[index].profilePicture,
+      });
+    }
+  }
+  res.status(200).json(users_info); // Returns success code 200, there will always be available users on this simple api call
+});
+
 router.get("/allUserInfo", async (req, res) => {
   const users = await User.find();
+  res.status(200).json(users);
+});
+
+router.put("/userInfoById", async (req, res) => {
+  const users = await User.find({ _id: req.body.userId });
   res.status(200).json(users);
 });
 

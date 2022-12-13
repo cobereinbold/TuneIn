@@ -22,6 +22,7 @@ import {
   IconChevronLeft,
   IconClipboardList,
   IconUsers,
+  IconSearch,
 } from "@tabler/icons";
 import "../css/SideBar.css";
 
@@ -76,50 +77,73 @@ const SideBar = (props) => {
                 HOME
               </Button>
             ) : null}
-            <Space h="xl" />
+            {user.isAdmin ? (
+              <>
+                <Space h="xl" />
+                <Button
+                  variant="subtle"
+                  leftIcon={<IconUsers size={50} />}
+                  size="xl"
+                  color={activePage === "POST" ? "spBlack" : "white"}
+                  onClick={() => {
+                    navigate("/users");
+                  }}
+                  fullWidth
+                >
+                  USERS
+                </Button>
+              </>
+            ) : null}
+            {user.isAdmin ? (
+              <>
+                <Space h="xl" />
+                <Button
+                  variant="subtle"
+                  leftIcon={<IconClipboardList size={50} />}
+                  size="xl"
+                  color={activePage === "POST" ? "spBlack" : "white"}
+                  onClick={() => {
+                    navigate("/stats");
+                  }}
+                  fullWidth
+                >
+                  STATS
+                </Button>
+              </>
+            ) : null}
             {!user.isAdmin ? (
-              <Button
-                variant="subtle"
-                leftIcon={<IconPlus size={50} />}
-                size="xl"
-                color={activePage === "POST" ? "spBlack" : "white"}
-                onClick={() => {
-                  navigate("/post");
-                }}
-                fullWidth
-              >
-                POST
-              </Button>
+              <>
+                <Space h="xl" />
+                <Button
+                  variant="subtle"
+                  leftIcon={<IconPlus size={50} />}
+                  size="xl"
+                  color={activePage === "POST" ? "spBlack" : "white"}
+                  onClick={() => {
+                    navigate("/post");
+                  }}
+                  fullWidth
+                >
+                  POST
+                </Button>
+              </>
             ) : null}
-            <Space h="xl" />
-            {user.isAdmin ? (
-              <Button
-                variant="subtle"
-                leftIcon={<IconUsers size={50} />}
-                size="xl"
-                color={activePage === "POST" ? "spBlack" : "white"}
-                onClick={() => {
-                  navigate("/users");
-                }}
-                fullWidth
-              >
-                USERS
-              </Button>
-            ) : null}
-            <Space h="xl" />
-            {user.isAdmin ? (
-              <Button
-                variant="subtle"
-                leftIcon={<IconClipboardList size={50} />}
-                size="xl"
-                color={activePage === "POST" ? "spBlack" : "white"}
-                onClick={() => {
-                  navigate("/stats");
-                }}
-                fullWidth
-              >
-                STATS
-              </Button>
+            {!user.isAdmin ? (
+              <>
+                <Space h="xl" />
+                <Button
+                  variant="subtle"
+                  leftIcon={<IconSearch size={50} />}
+                  size="xl"
+                  color={activePage === "SEARCH" ? "spBlack" : "white"}
+                  onClick={() => {
+                    navigate("/search");
+                  }}
+                  fullWidth
+                >
+                  SEARCH
+                </Button>
+              </>
             ) : null}
           </Navbar.Section>
           <Navbar.Section>
