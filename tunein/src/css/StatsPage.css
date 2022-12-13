@@ -1,3 +1,18 @@
 .title {
-  padding: 20px;
+  padding: 40px;
+}
+
+.stats-table {
+  margin-top: 50px;
+  margin-right: 50px;
+  margin: 0 auto;
+}
+
+#container {
+  width: 100%;
+  overflow: auto;
+}
+
+#container > Table {
+  width: 80%;
 }

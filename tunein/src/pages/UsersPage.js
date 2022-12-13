@@ -33,7 +33,7 @@ const UsersPage = () => {
         <td>{user.firstName}</td>
         <td>{user.lastName}</td>
         <td>{user.dateJoined}</td>
-        <td>{user.password}</td>
+        <td style={{ whiteSpace: "unset" }}>{user.password}</td>
       </tr>
     ));
 
@@ -48,22 +48,22 @@ const UsersPage = () => {
   }, []);
 
   return (
-    <AppShell navbar={<SideBar activePage='USERS' />}>
+    <AppShell navbar={<SideBar activePage="USERS" />}>
       <Center>
-        <Title className='title'>Admin View: Users Table</Title>
+        <Title className="title">Admin View: Users Table</Title>
       </Center>
-      <Center>
+      <div id="container">
         <Table
-          className='users-table'
+          className="users-table"
           withBorder
           withColumnBorders
           highlightOnHover
-          fontSize='md'
+          fontSize="md"
         >
           <thead>{tableHeaders}</thead>
           <tbody>{rows}</tbody>
         </Table>
-      </Center>
+      </div>
     </AppShell>
   );
 };
