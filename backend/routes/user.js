@@ -213,10 +213,10 @@ router.post("/logout", isAuth, (req, res) => {
   });
 });
 
-router.get("/deleteUser", isAuth, async (req, res) => {
+router.delete("/deleteUser", isAuth, async (req, res) => {
   await User.deleteOne({ _id: req.body.userId })
     .then(function () {
-      res.status(200).json(users);
+      res.status(200);
     })
     .catch(function (error) {
       console.log(error);
