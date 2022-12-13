@@ -20,6 +20,8 @@ import {
   IconPlus,
   IconChevronRight,
   IconChevronLeft,
+  IconClipboardList,
+  IconUsers,
 } from "@tabler/icons";
 import "../css/SideBar.css";
 
@@ -60,31 +62,65 @@ const SideBar = (props) => {
             </Center>
           </Navbar.Section>
           <Navbar.Section grow mt="md">
-            <Button
-              variant="subtle"
-              leftIcon={<IconHome2 size={50} />}
-              size="xl"
-              color={activePage === "HOME" ? "spBlack" : "white"}
-              onClick={() => {
-                navigate("/home");
-              }}
-              fullWidth
-            >
-              HOME
-            </Button>
+            {!user.isAdmin ? ( // only render the button if user.isAdmin is false
+              <Button
+                variant="subtle"
+                leftIcon={<IconHome2 size={50} />}
+                size="xl"
+                color={activePage === "HOME" ? "spBlack" : "white"}
+                onClick={() => {
+                  navigate("/home");
+                }}
+                fullWidth
+              >
+                HOME
+              </Button>
+            ) : null}
             <Space h="xl" />
-            <Button
-              variant="subtle"
-              leftIcon={<IconPlus size={50} />}
-              size="xl"
-              color={activePage === "POST" ? "spBlack" : "white"}
-              onClick={() => {
-                navigate("/post");
-              }}
-              fullWidth
-            >
-              POST
-            </Button>
+            {!user.isAdmin ? (
+              <Button
+                variant="subtle"
+                leftIcon={<IconPlus size={50} />}
+                size="xl"
+                color={activePage === "POST" ? "spBlack" : "white"}
+                onClick={() => {
+                  navigate("/post");
+                }}
+                fullWidth
+              >
+                POST
+              </Button>
+            ) : null}
+            <Space h="xl" />
+            {user.isAdmin ? (
+              <Button
+                variant="subtle"
+                leftIcon={<IconUsers size={50} />}
+                size="xl"
+                color={activePage === "POST" ? "spBlack" : "white"}
+                onClick={() => {
+                  navigate("/users");
+                }}
+                fullWidth
+              >
+                USERS
+              </Button>
+            ) : null}
+            <Space h="xl" />
+            {user.isAdmin ? (
+              <Button
+                variant="subtle"
+                leftIcon={<IconClipboardList size={50} />}
+                size="xl"
+                color={activePage === "POST" ? "spBlack" : "white"}
+                onClick={() => {
+                  navigate("/stats");
+                }}
+                fullWidth
+              >
+                STATS
+              </Button>
+            ) : null}
           </Navbar.Section>
           <Navbar.Section>
             <Box
@@ -92,42 +128,44 @@ const SideBar = (props) => {
                 paddingTop: theme.spacing.sm,
               }}
             >
-              <UnstyledButton
-                sx={{
-                  display: "block",
-                  width: "100%",
-                  padding: theme.spacing.xs,
-                  borderRadius: theme.radius.sm,
-                  color: theme.black,
-                  backgroundColor:
-                    activePage === "ACCOUNT" ? theme.colors.spGreen[7] : "",
+              {!user.isAdmin ? (
+                <UnstyledButton
+                  sx={{
+                    display: "block",
+                    width: "100%",
+                    padding: theme.spacing.xs,
+                    borderRadius: theme.radius.sm,
+                    color: theme.black,
+                    backgroundColor:
+                      activePage === "ACCOUNT" ? theme.colors.spGreen[7] : "",
 
-                  "&:hover": {
-                    backgroundColor: theme.colors.spGreen[7],
-                  },
-                }}
-                onClick={() => {
-                  navigate("/account");
-                }}
-              >
-                <Group>
-                  <Avatar src={user.profilePicture} radius="xl" />
-                  <Box sx={{ flex: 1 }}>
-                    <Text size="sm" weight={500}>
-                      {"@" + user.username}
-                    </Text>
-                    <Text color="white" size="xs">
-                      {user.firstName + " " + user.lastName}
-                    </Text>
-                  </Box>
+                    "&:hover": {
+                      backgroundColor: theme.colors.spGreen[7],
+                    },
+                  }}
+                  onClick={() => {
+                    navigate("/account");
+                  }}
+                >
+                  <Group>
+                    <Avatar src={user.profilePicture} radius="xl" />
+                    <Box sx={{ flex: 1 }}>
+                      <Text size="sm" weight={500}>
+                        {"@" + user.username}
+                      </Text>
+                      <Text color="white" size="xs">
+                        {user.firstName + " " + user.lastName}
+                      </Text>
+                    </Box>
 
-                  {theme.dir === "ltr" ? (
-                    <IconChevronRight size={18} />
-                  ) : (
-                    <IconChevronLeft size={18} />
-                  )}
-                </Group>
-              </UnstyledButton>
+                    {theme.dir === "ltr" ? (
+                      <IconChevronRight size={18} />
+                    ) : (
+                      <IconChevronLeft size={18} />
+                    )}
+                  </Group>
+                </UnstyledButton>
+              ) : null}
               <Space h="sm" />
               <Center>
                 <Button
