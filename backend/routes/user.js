@@ -162,14 +162,14 @@ router.get("/getSomeUsers", async (req, res) => {
 
   for (index in users){
     users_info.push({
+      _id: users[index]._id.toHexString(),
       username: users[index].username,
       firstName: users[index].firstName,
       lastName: users[index].lastName,
       profilePicture: users[index].profilePicture,
     });
   }
-  console.log(users_info);
-  res.status(200).json(users_info); // Returns success code 200, there will always be available users on this simple api call
+  res.status(200).json(users_info);
 });
 
 router.put("/searchUser", async (req, res) => {
@@ -178,14 +178,24 @@ router.put("/searchUser", async (req, res) => {
 
   for (index in users){
     users_info.push({
+      _id: users[index]._id.toHexString(),
       username: users[index].username,
       firstName: users[index].firstName,
       lastName: users[index].lastName,
       profilePicture: users[index].profilePicture,
     });
   }
-  console.log(users_info);
   res.status(200).json(users_info); // Returns success code 200, there will always be available users on this simple api call
+});
+
+router.get("/allUserInfo", async (req, res) => {
+  const users = await User.find();
+  res.status(200).json(users);
+});
+
+router.put("/userInfoById", async (req, res) => {
+  const users = await User.find({_id: req.body.userId});
+  res.status(200).json(users);
 });
 
 module.exports = router;

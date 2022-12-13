@@ -7,7 +7,8 @@ import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import PostPage from "./pages/PostPage";
 import AccountPage from "./pages/AccountPage";
-import UsersPage from "./pages/UsersPage";
+import SearchPage from "./pages/SearchPage";
+import ViewAccountPage from "./pages/ViewAccountPage";
 
 const App = () => {
   return (
@@ -53,7 +54,8 @@ const App = () => {
           <Route path='home' element={<HomePage />} />
           <Route path='post' element={<PostPage />} />
           <Route path='account' element={<AccountPage />} />
-          <Route path='users' element={<UsersPage />} />
+          <Route path='search' element={<SearchPage />} />
+          <Route path='viewaccount' element={<ViewAccountPage />} />
         </Routes>
       </BrowserRouter>
     </MantineProvider>

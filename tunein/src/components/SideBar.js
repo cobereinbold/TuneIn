@@ -69,13 +69,13 @@ const SideBar = (props) => {
           variant='subtle'
           leftIcon={<IconSearch size={50} />}
           size='xl'
-          color={activePage === "USERS" ? "spBlack" : "white"}
+          color={activePage === "SEARCH" ? "spBlack" : "white"}
           onClick={() => {
-            navigate("/users");
+            navigate("/search");
           }}
           fullWidth
         >
-          USERS
+          SEARCH
         </Button>
       </Navbar.Section>
       <Navbar.Section>
