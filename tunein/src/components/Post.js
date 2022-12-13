@@ -26,6 +26,7 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
   const [currentUser, setUser] = useState({});
   const [postLikes, setPostLikes] = useState(likes.count);
   const [commentsArray, setCommentsArray] = useState(comments);
+  const [likesArray, setLikesArray] = useState(likes.users);
 
   const commentOnPost = () => {
     fetch("http://localhost:5000/post/addComment/", {
@@ -62,6 +63,7 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
     }).then((response) => {
       if (response.status === 200) {
         setPostLikes(postLikes + 1);
+        setLikesArray([...likesArray, currentUser.username]);
       } else if (response.status === 501) {
         console.log("Already liked");
       }
@@ -110,7 +112,7 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
         <Text onClick={() => setCommentsOpen(true)} className="comments">
           View all comments...
         </Text>
-        <Divider my="sm" />
+        <Space h="xl" />
       </Container>
       <Modal
         centered
@@ -170,7 +172,7 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
         title={"Likes: " + postLikes}
       >
         <Stack>
-          {likes.users.map((user) => {
+          {likesArray.map((user) => {
             return (
               <Group>
                 <IconHeart size={20} fill="red" color="red" />

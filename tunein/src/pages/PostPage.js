@@ -9,6 +9,7 @@ import {
   Space,
   TextInput,
   Title,
+  Center,
 } from "@mantine/core";
 import SongCard from "../components/SongCard";
 
@@ -127,7 +128,7 @@ const PostPage = () => {
   }
 
   return (
-    <AppShell navbar={<SideBar activePage='POST' />}>
+    <AppShell navbar={<SideBar activePage="POST" />}>
       {<LoadingOverlay visible={loading} overlayOpacity={1}></LoadingOverlay>}
       {!posted && (
         <>
@@ -135,7 +136,7 @@ const PostPage = () => {
           <TextInput
             value={searchVal}
             onChange={(e) => setSearchVal(e.currentTarget.value)}
-            label='Search'
+            label="Search"
             onKeyPress={(event) => {
               if (event.key === "Enter") {
                 search(searchVal);
@@ -143,7 +144,7 @@ const PostPage = () => {
               }
             }}
           />
-          <Space h='md' />
+          <Space h="md" />
           <Button
             onClick={() => {
               if (searchVal === "") {
@@ -157,21 +158,21 @@ const PostPage = () => {
           >
             Search
           </Button>
-          <Space h='lg' />
+          <Space h="lg" />
           {!searched && (
-            <Title order={3} ta='center'>
+            <Title order={3} ta="center">
               Top 20 Global Tracks
             </Title>
           )}
           {searched && (
-            <Title order={3} ta='center'>
+            <Title order={3} ta="center">
               {`Top 20 Search Results for: "${searchVal}"`}
             </Title>
           )}
-          <Space h='md' />
+          <Space h="md" />
           <SimpleGrid
             cols={4}
-            spacing='xl'
+            spacing="xl"
             breakpoints={[
               { maxWidth: 1800, cols: 4, spacing: "xl" },
               { maxWidth: 1500, cols: 3, spacing: "xl" },
@@ -186,9 +187,11 @@ const PostPage = () => {
         </>
       )}
       {posted && (
-        <Title order={1}>
-          You've already posted today, come back tomorrow!
-        </Title>
+        <Center>
+          <Title order={1}>
+            You've already posted today, come back tomorrow!
+          </Title>
+        </Center>
       )}
     </AppShell>
   );
