@@ -81,8 +81,10 @@ const HomePage = () => {
   }, []);
 
   const retrievePosts = () => {
-    fetch(`http://localhost:5000/post/getAllPosts/`, {
+    fetch(`/post/getAllPosts/`, {
       headers: { "Content-Type": "application/json" },
+      // credentials: 'include',
+      // mode: 'cors',
     })
       .then((response) => response.json())
       .then((posts) => {

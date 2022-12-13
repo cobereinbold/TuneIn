@@ -48,9 +48,11 @@ const LoginPage = () => {
   });
 
   const handleSignIn = (values) => {
-    fetch(`http://localhost:5000/user/signInUser`, {
+    fetch(`/user/signInUser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      //credentials: 'include',
+      // mode: 'cors',
       body: JSON.stringify({
         username: values.username,
         password: values.password,

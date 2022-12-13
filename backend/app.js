@@ -23,11 +23,22 @@ const postRoute = require("./routes/post");
 
 app.use(bodyParser.json());
 app.use(cors());
+// app.use(cors({
+//   allowedHeaders: ['Content-Type, Authorization, Cookie'],
+//   credentials: true,
+//   origin: [
+//     'http://localhost:3000',
+//     'http://127.0.0.1:3000'
+//   ]
+// }));
 app.use(
   sessions({
     secret: "supersecret",
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 },
+    cookie: { 
+      maxAge: 1000 * 60 * 60,
+      httpOnly: false,
+    },
     resave: false,
     store: sessionStore,
   })
