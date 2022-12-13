@@ -17,6 +17,7 @@ import {
   IconPlus,
   IconChevronRight,
   IconChevronLeft,
+  IconSearch,
 } from "@tabler/icons";
 import "../css/SideBar.css";
 
@@ -62,6 +63,19 @@ const SideBar = (props) => {
           fullWidth
         >
           POST
+        </Button>
+        <Space h='xl' />
+        <Button
+          variant='subtle'
+          leftIcon={<IconSearch size={50} />}
+          size='xl'
+          color={activePage === "USERS" ? "spBlack" : "white"}
+          onClick={() => {
+            navigate("/users");
+          }}
+          fullWidth
+        >
+          USERS
         </Button>
       </Navbar.Section>
       <Navbar.Section>
