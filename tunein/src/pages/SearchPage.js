@@ -23,36 +23,6 @@ const SearchPage = () => {
   const [current_user_list, setUsers] = useState([]);
 
   async function loadSomeUsers() {
-    fetch(`http://localhost:5000/user/getSomeUsers`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((result) => result.json())
-      .then((data) => {
-        let list = [];
-        for (let index in data) {
-          if (data[index].username === "adminuser") continue;
-          list.push({
-            userId: data[index]._id,
-            username: data[index].username,
-            firstName: data[index].firstName,
-            lastName: data[index].lastName,
-            profilePicture: data[index].profilePicture,
-          });
-        }
-        setUsers(list);
-        console.log(current_user_list);
-      })
-      .catch((err) => console.log(err));
-  }
-
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem("user")).isAdmin) {
-      navigate("/users");
-    }
-    loadSomeUsers();
-  });
-  async function loadSomeUsers() {
     fetch(`/user/getSomeUsers`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -101,6 +71,14 @@ const SearchPage = () => {
       })
       .catch((err) => console.log(err));
   }
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("user")).isAdmin) {
+      navigate("/users");
+    }
+    if(searchVal === "")
+        loadSomeUsers();
+  });
 
   return (
     <AppShell navbar={<SideBar activePage='SEARCH' />}>

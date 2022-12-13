@@ -73,7 +73,7 @@ const UsersPage = () => {
       <Center>
         <Title className="title">Admin View: Users Table</Title>
       </Center>
-      <Center>
+      <div id="container">
         <Table
           className="users-table"
           withBorder
@@ -84,7 +84,7 @@ const UsersPage = () => {
           <thead>{tableHeaders}</thead>
           <tbody>{rows}</tbody>
         </Table>
-      </Center>
+      </div>
     </AppShell>
   );
 };
