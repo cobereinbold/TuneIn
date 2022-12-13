@@ -76,7 +76,7 @@ const AccountPage = () => {
             comments: post.comments,
           });
         });
-        setPreviousPosts(res);
+        setPreviousPosts(res.reverse());
       });
   };
 
@@ -100,7 +100,7 @@ const AccountPage = () => {
   }, []);
 
   return (
-    <AppShell navbar={<SideBar activePage="SEARCH" />}>
+    <AppShell navbar={<SideBar activePage='SEARCH' />}>
       <Center>
         <Image
           src={
@@ -110,32 +110,32 @@ const AccountPage = () => {
           }
           width={200}
           height={200}
-          radius="50%"
+          radius='50%'
           withPlaceholder
         />
       </Center>
-      <Space h="lg" />
+      <Space h='lg' />
       <Center>
         <Stack>
-          <Title ta="center" order={1}>
+          <Title ta='center' order={1}>
             {"@" + user.username}
           </Title>
-          <Title ta="center" order={2}>
+          <Title ta='center' order={2}>
             {user.firstName + " " + user.lastName}
           </Title>
-          <Title ta="center" order={3}>
+          <Title ta='center' order={3}>
             Favourite Genre: {user.favoriteGenre}
           </Title>
-          <Title ta="center" order={3}>
+          <Title ta='center' order={3}>
             Joined: {user.dateJoined}
           </Title>
         </Stack>
       </Center>
-      <Space h="lg" />
+      <Space h='lg' />
       <Center>
         <SimpleGrid
           cols={4}
-          spacing="xl"
+          spacing='xl'
           breakpoints={[
             { maxWidth: 1800, cols: 4, spacing: "xl" },
             { maxWidth: 1500, cols: 3, spacing: "xl" },
@@ -153,7 +153,7 @@ const AccountPage = () => {
                   setModalOpen(true);
                   setSelectedPost(post);
                 }}
-                className="image"
+                className='image'
               />
             );
           })}
@@ -175,18 +175,18 @@ const AccountPage = () => {
             }
           ></Image>
         </Center>
-        <Space h="md" />
-        <Title order={3} ta="center">
+        <Space h='md' />
+        <Title order={3} ta='center'>
           {selectedPost.songInfo.song + ": " + selectedPost.songInfo.artist}
         </Title>
-        <Text fz="md" ta="center" color="spGreen">
+        <Text fz='md' ta='center' color='spGreen'>
           {selectedPost.caption}
         </Text>
-        <Group spacing="none" position="center">
-          <IconHeart size={20} fill={"red"} color="red" />
+        <Group spacing='none' position='center'>
+          <IconHeart size={20} fill={"red"} color='red' />
           <Text>{selectedPost.likes.count + " Likes"}</Text>
-          <Space w="lg" />
-          <IconDots size={20} color="white" />
+          <Space w='lg' />
+          <IconDots size={20} color='white' />
           <Text>{selectedPost.comments.length + " Comments"}</Text>
         </Group>
       </Modal>
@@ -194,7 +194,7 @@ const AccountPage = () => {
         centered
         opened={editModalOpen}
         onClose={() => setEditModalOpen(false)}
-        title="Edit Account"
+        title='Edit Account'
       ></Modal>
     </AppShell>
   );
