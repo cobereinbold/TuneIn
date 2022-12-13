@@ -12,4 +12,8 @@ mongo databse credentials:
 user: SENG513User
 password: SENG513Project
 
+admin login credentials:
+user: adminuser
+password: admin1
+
 (May need to add ip address to permission list, not sure)
