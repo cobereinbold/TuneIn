@@ -14,8 +14,7 @@ import {
 const UsersPage = () => {
     const navigate = useNavigate();
     const [searchVal, setSearchVal] = useState("");
-    const [searched, setSearched] = useState(false);
-    const [current_user_list, setUsers] = useState("");
+    const [current_user_list, setUsers] = useState([]);
 
     async function loadSomeUsers() {
         fetch(`http://localhost:5000/user/getSomeUsers`, {
@@ -24,7 +23,16 @@ const UsersPage = () => {
         })
         .then((result) => result.json())
         .then((data) => {
-            setUsers(data[0].username);
+            let list = [];
+            for (let datum in data){
+                list.push({
+                    username: datum.username,
+                    firstName: datum.username,
+                    lastName: datum.username,
+                    profilePicture: datum.username,
+                });
+            }
+            setUsers(list);
         })
         .catch((err) => console.log(err));
     }
@@ -39,7 +47,16 @@ const UsersPage = () => {
         })
         .then((result) => result.json())
         .then((data) => {
-            setUsers(data.username);
+            let list = [];
+            for (let datum in data){
+                list.push({
+                    username: datum.username,
+                    firstName: datum.username,
+                    lastName: datum.username,
+                    profilePicture: datum.username,
+                });
+            }
+            setUsers(list);
         })
         .catch((err) => console.log(err));
     }
@@ -54,7 +71,6 @@ const UsersPage = () => {
             onKeyPress={(event) => {
               if (event.key === "Enter") {
                 search(searchVal);
-                setSearched(true);
               }
             }}
           />
@@ -63,10 +79,8 @@ const UsersPage = () => {
             onClick={() => {
               if (searchVal === "") {
                 loadSomeUsers();
-                setSearched(false);
               } else {
                 search(searchVal);
-                setSearched(true);
               }
             }}
           >
@@ -74,7 +88,7 @@ const UsersPage = () => {
           </Button>
           <Space h='md' />
           <List>
-            <List.Item>{current_user_list}</List.Item>
+            <List.Item>{current_user_list.username}</List.Item>
           </List>
         </AppShell>
       );

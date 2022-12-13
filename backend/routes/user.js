@@ -174,12 +174,16 @@ router.get("/getSomeUsers", async (req, res) => {
 
 router.put("/searchUser", async (req, res) => {
   const users = await User.find({username: req.body.username});
-  users_info = [{
-    username: users.username,
-    firstName: users.firstName,
-    lastName: users.lastName,
-    profilePicture: users.profilePicture,
-  }];
+  users_info = [];
+
+  for (index in users){
+    users_info.push({
+      username: users[index].username,
+      firstName: users[index].firstName,
+      lastName: users[index].lastName,
+      profilePicture: users[index].profilePicture,
+    });
+  }
   console.log(users_info);
   res.status(200).json(users_info); // Returns success code 200, there will always be available users on this simple api call
 });
