@@ -39,7 +39,7 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
   };
 
   const post = () => {
-    fetch("http://localhost:5000/post/createPost/", {
+    fetch("/post/createPost/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
