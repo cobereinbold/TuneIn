@@ -48,22 +48,22 @@ const StatsPage = () => {
   }, []);
 
   return (
-    <AppShell navbar={<SideBar activePage='STATS' />}>
+    <AppShell navbar={<SideBar activePage="STATS" />}>
       <Center>
-        <Title className='title'>Admin View: Statistics Table</Title>
+        <Title className="title">Admin View: Statistics Table</Title>
       </Center>
-      <Center>
+      <div id="container">
         <Table
-          className='users-table'
+          className="stats-table"
           withBorder
           withColumnBorders
           highlightOnHover
-          fontSize='md'
+          fontSize="md"
         >
           <thead>{tableHeaders}</thead>
           <tbody>{rows}</tbody>
         </Table>
-      </Center>
+      </div>
     </AppShell>
   );
 };
