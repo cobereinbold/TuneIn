@@ -51,7 +51,6 @@ const AccountPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(defaultSong);
 
-
   const viewuserId = localStorage.getItem("viewuser");
 
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -89,10 +88,10 @@ const AccountPage = () => {
         userId: ObjectId(userId),
       }),
     })
-    .then((response) => response.json())
-    .then((data) => {
+      .then((response) => response.json())
+      .then((data) => {
         setUser(data[0]);
-    });
+      });
   };
 
   useEffect(() => {
@@ -104,7 +103,11 @@ const AccountPage = () => {
     <AppShell navbar={<SideBar activePage="SEARCH" />}>
       <Center>
         <Image
-          src={user.profilePicture}
+          src={
+            user.profilePicture
+              ? user.profilePicture
+              : "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png"
+          }
           width={200}
           height={200}
           radius="50%"
@@ -192,8 +195,7 @@ const AccountPage = () => {
         opened={editModalOpen}
         onClose={() => setEditModalOpen(false)}
         title="Edit Account"
-      >
-      </Modal>
+      ></Modal>
     </AppShell>
   );
 };
