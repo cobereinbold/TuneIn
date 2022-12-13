@@ -95,6 +95,9 @@ const AccountPage = () => {
   };
 
   useEffect(() => {
+    if (JSON.parse(localStorage.getItem("user")).isAdmin) {
+      navigate("/users");
+    }
     setUserInfo(viewuserId);
     getPreviousPosts(viewuserId);
   }, []);

@@ -73,6 +73,9 @@ const HomePage = () => {
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
+    if (JSON.parse(localStorage.getItem("user")).isAdmin) {
+      navigate("/users");
+    }
     if (!loggedInUser) {
       navigate("/");
     } else {
@@ -91,8 +94,8 @@ const HomePage = () => {
   };
 
   return (
-    <AppShell navbar={<SideBar activePage="HOME" />}>
-      <Stack justify="flex-start">
+    <AppShell navbar={<SideBar activePage='HOME' />}>
+      <Stack justify='flex-start'>
         {dailyPosts.map((post) => {
           return <Post {...post} />;
         })}

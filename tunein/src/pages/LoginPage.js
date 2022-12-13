@@ -77,7 +77,11 @@ const LoginPage = () => {
       .then((user) => {
         localStorage.setItem("user", JSON.stringify(user.user));
         localStorage.setItem("authenticated", true);
-        navigate("/home");
+        if (!user.user.isAdmin) {
+          navigate("/home");
+        } else {
+          navigate("/users");
+        }
       });
   };
 
@@ -173,33 +177,33 @@ const LoginPage = () => {
   return (
     <>
       <CustomHeader />
-      <Space h="xs" />
-      <AspectRatio ratio={1080 / 1080} sx={{ maxWidth: "200px" }} mx="auto">
-        <Image src={logo} alt="Logo" />
+      <Space h='xs' />
+      <AspectRatio ratio={1080 / 1080} sx={{ maxWidth: "200px" }} mx='auto'>
+        <Image src={logo} alt='Logo' />
       </AspectRatio>
       <MediaQuery
-        query="(max-width: 500px) and (min-width: 200px)"
+        query='(max-width: 500px) and (min-width: 200px)'
         styles={{ paddingLeft: "30px", paddingRight: "30px" }}
       >
-        <Box sx={{ maxWidth: 400 }} mx="auto">
+        <Box sx={{ maxWidth: 400 }} mx='auto'>
           <form onSubmit={loginForm.onSubmit((values) => handleSignIn(values))}>
             <TextInput
               withAsterisk
-              label="Username"
-              placeholder="JohnSmith"
+              label='Username'
+              placeholder='JohnSmith'
               {...loginForm.getInputProps("username")}
             ></TextInput>
-            <Space h="lg" />
+            <Space h='lg' />
             <PasswordInput
               withAsterisk
-              label="Password"
-              placeholder="Password"
+              label='Password'
+              placeholder='Password'
               {...loginForm.getInputProps("password")}
             />
-            <Space h="xl" />
-            <Space h="xl" />
-            <Stack spacing="xl">
-              <Button type="submit">LOGIN</Button>
+            <Space h='xl' />
+            <Space h='xl' />
+            <Stack spacing='xl'>
+              <Button type='submit'>LOGIN</Button>
               <Button onClick={() => setModalOpen(true)}>SIGN UP</Button>
             </Stack>
           </form>
@@ -212,10 +216,10 @@ const LoginPage = () => {
           setModalOpen(false);
           setSuccessCreated(false);
         }}
-        title="Create an Account"
+        title='Create an Account'
         centered
       >
-        <Box sx={{ maxWidth: 400 }} mx="auto">
+        <Box sx={{ maxWidth: 400 }} mx='auto'>
           <form
             onSubmit={signUpForm.onSubmit((values) => {
               signUpUser(values);
@@ -224,43 +228,43 @@ const LoginPage = () => {
           >
             <TextInput
               withAsterisk
-              label="Email"
-              placeholder="you@gmail.com"
+              label='Email'
+              placeholder='you@gmail.com'
               {...signUpForm.getInputProps("email")}
             ></TextInput>
-            <Space h="lg" />
+            <Space h='lg' />
             <TextInput
               withAsterisk
-              label="Username"
-              placeholder="JohnSmith"
+              label='Username'
+              placeholder='JohnSmith'
               {...signUpForm.getInputProps("username")}
             ></TextInput>
-            <Space h="lg" />
+            <Space h='lg' />
             <TextInput
               withAsterisk
-              label="First Name"
-              placeholder="John"
+              label='First Name'
+              placeholder='John'
               {...signUpForm.getInputProps("firstName")}
             ></TextInput>
-            <Space h="lg" />
+            <Space h='lg' />
             <TextInput
               withAsterisk
-              label="Last Name"
-              placeholder="Smith"
+              label='Last Name'
+              placeholder='Smith'
               {...signUpForm.getInputProps("lastName")}
             ></TextInput>
-            <Space h="lg" />
+            <Space h='lg' />
             <PasswordInput
               withAsterisk
-              label="Password"
-              placeholder="Password"
+              label='Password'
+              placeholder='Password'
               {...signUpForm.getInputProps("password")}
             />
-            <Space h="lg" />
+            <Space h='lg' />
             <Select
               withAsterisk
-              label="Favorite Genre"
-              placeholder="Pick one"
+              label='Favorite Genre'
+              placeholder='Pick one'
               data={[
                 { value: "Afro", label: "Afro" },
                 { value: "Alternative", label: "Alternative" },
@@ -279,19 +283,19 @@ const LoginPage = () => {
               ]}
               {...signUpForm.getInputProps("favoriteGenre")}
             />
-            <Space h="lg" />
+            <Space h='lg' />
             <FileInput
-              label="Profile Picture"
+              label='Profile Picture'
               value={file}
-              placeholder="Profile Picture"
+              placeholder='Profile Picture'
               icon={<IconUpload size={14} />}
-              accept="image/png,image/jpeg"
+              accept='image/png,image/jpeg'
               onChange={setFile}
             />
-            <Space h="xl" />
+            <Space h='xl' />
             <Center>
               <Button
-                type="submit"
+                type='submit'
                 loading={signUpLoading}
                 disabled={signUpDisabled}
               >
@@ -300,12 +304,12 @@ const LoginPage = () => {
             </Center>
           </form>
         </Box>
-        <Space h="md" />
-        <Group hidden={!successCreated} position="center">
+        <Space h='md' />
+        <Group hidden={!successCreated} position='center'>
           <Notification
             icon={<IconCheck size={20} />}
-            color="spGreen"
-            title="User Created"
+            color='spGreen'
+            title='User Created'
             onClose={() => setSuccessCreated(false)}
             disallowClose
           >
