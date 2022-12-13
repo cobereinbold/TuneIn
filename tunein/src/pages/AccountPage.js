@@ -289,6 +289,9 @@ const AccountPage = () => {
       return;
     }
     setUser(JSON.parse(localStorage.getItem("user")));
+    if (JSON.parse(localStorage.getItem("user")).isAdmin) {
+      navigate("/users");
+    }
     getPreviousPosts(JSON.parse(localStorage.getItem("user"))._id);
   }, []);
 

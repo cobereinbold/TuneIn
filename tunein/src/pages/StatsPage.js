@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Center, Table, AppShell, Title } from "@mantine/core";
 import SideBar from "../components/SideBar";
+import { useNavigate } from "react-router-dom";
 import "../css/StatsPage.css";
 
 const StatsPage = () => {
   const [userInfo, setUserInfo] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
+  const navigate = useNavigate();
+
   const tableHeaders = (
     <tr>
       <th>User</th>
@@ -33,23 +37,28 @@ const StatsPage = () => {
     ));
 
   useEffect(() => {
+    setCurrentUser(JSON.parse(localStorage.getItem("user")));
+    if (!JSON.parse(localStorage.getItem("user")).isAdmin) {
+      navigate("/home");
+    }
     getAllUserInfo().then((data) => {
       setUserInfo(data);
+      console.log(data);
     });
   }, []);
 
   return (
-    <AppShell navbar={<SideBar activePage="STATS" />}>
+    <AppShell navbar={<SideBar activePage='STATS' />}>
       <Center>
-        <Title className="title">Admin View: Statistics Table</Title>
+        <Title className='title'>Admin View: Statistics Table</Title>
       </Center>
       <Center>
         <Table
-          className="users-table"
+          className='users-table'
           withBorder
           withColumnBorders
           highlightOnHover
-          fontSize="md"
+          fontSize='md'
         >
           <thead>{tableHeaders}</thead>
           <tbody>{rows}</tbody>
