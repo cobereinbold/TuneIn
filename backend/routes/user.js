@@ -174,7 +174,9 @@ router.get("/getSomeUsers", isAuth, async (req, res) => {
 });
 
 router.put("/searchUser", isAuth, async (req, res) => {
-  const users = await User.find({ username: {$regex: req.body.username, $options: "i" }});
+  const users = await User.find({
+    username: { $regex: req.body.username, $options: "i" },
+  });
   let users_info = [];
 
   for (index in users) {
