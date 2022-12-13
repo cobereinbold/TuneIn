@@ -51,7 +51,7 @@ const LoginPage = () => {
   });
 
   const handleSignIn = (values) => {
-    fetch(`http://localhost:5000/user/signInUser`, {
+    fetch(`/user/signInUser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -110,7 +110,7 @@ const LoginPage = () => {
     console.log(file);
     if (file) profilePic = await uploadProfilePic(file);
     console.log(profilePic);
-    fetch(`http://localhost:5000/user/createUser`, {
+    fetch(`/user/createUser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
