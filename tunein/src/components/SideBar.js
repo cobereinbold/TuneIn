@@ -34,9 +34,16 @@ const SideBar = (props) => {
   const [drawerOpened, setDrawerOpened] = useState(false);
 
   const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("authenticated");
-    navigate("/");
+
+    fetch("/user/logout/", {
+      method: "POST",
+      //headers: { "Content-Type": "application/json" },
+    }).then((response) => {
+      localStorage.removeItem("user");
+      localStorage.removeItem("authenticated");
+      navigate("/");
+    });
+    
   };
 
   useEffect(() => {

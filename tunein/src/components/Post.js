@@ -29,7 +29,7 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
   const [likesArray, setLikesArray] = useState(likes.users);
 
   const commentOnPost = () => {
-    fetch("http://localhost:5000/post/addComment/", {
+    fetch("/post/addComment/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -52,7 +52,7 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
   };
 
   const likePost = () => {
-    fetch("http://localhost:5000/post/likePost/", {
+    fetch("/post/likePost/", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

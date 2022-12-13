@@ -24,7 +24,7 @@ const SearchPage = () => {
     const [current_user_list, setUsers] = useState([]);
 
     async function loadSomeUsers() {
-        fetch(`http://localhost:5000/user/getSomeUsers`, {
+        fetch(`/user/getSomeUsers`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
         })
@@ -49,7 +49,7 @@ const SearchPage = () => {
     }
 
     async function search(value) {
-        fetch(`http://localhost:5000/user/searchUser`, {
+        fetch(`/user/searchUser`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

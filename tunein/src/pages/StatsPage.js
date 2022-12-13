@@ -15,7 +15,7 @@ const StatsPage = () => {
   );
 
   const getAllUserInfo = async () => {
-    const response = await fetch("http://localhost:5000/user/allUserInfo", {
+    const response = await fetch("/user/allUserInfo", {
       method: "GET",
     });
     return await response.json();

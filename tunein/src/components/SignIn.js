@@ -22,7 +22,7 @@ class SignIn extends React.Component {
   handleSignIn = (e) => {
     e.preventDefault();
 
-    fetch(`http://localhost:5000/user/signInUser`, {
+    fetch(`/user/signInUser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -51,7 +51,7 @@ class SignIn extends React.Component {
       return;
     }
 
-    fetch(`http://localhost:5000/user/createUser`, {
+    fetch(`/user/createUser`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

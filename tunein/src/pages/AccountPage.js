@@ -293,7 +293,7 @@ const AccountPage = () => {
   }, []);
 
   const updateAccount = (values) => {
-    fetch(`http://localhost:5000/user/updateUser`, {
+    fetch(`/user/updateUser`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -326,7 +326,7 @@ const AccountPage = () => {
 
   /** TODO: Function to get user's previous posts */
   const getPreviousPosts = (userId) => {
-    fetch(`http://localhost:5000/post/getAllPostsById/`, {
+    fetch(`/post/getAllPostsById/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
