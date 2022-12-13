@@ -24,15 +24,16 @@ const UsersPage = () => {
         .then((result) => result.json())
         .then((data) => {
             let list = [];
-            for (let datum in data){
+            for (let index in data){
                 list.push({
-                    username: datum.username,
-                    firstName: datum.username,
-                    lastName: datum.username,
-                    profilePicture: datum.username,
+                    username: data[index].username,
+                    firstName: data[index].firstName,
+                    lastName: data[index].lastName,
+                    profilePicture: data[index].profilePicture,
                 });
             }
             setUsers(list);
+            console.log(list);
         })
         .catch((err) => console.log(err));
     }
@@ -48,15 +49,16 @@ const UsersPage = () => {
         .then((result) => result.json())
         .then((data) => {
             let list = [];
-            for (let datum in data){
+            for (let index in data){
                 list.push({
-                    username: datum.username,
-                    firstName: datum.username,
-                    lastName: datum.username,
-                    profilePicture: datum.username,
+                    username: data[index].username,
+                    firstName: data[index].firstName,
+                    lastName: data[index].lastName,
+                    profilePicture: data[index].profilePicture,
                 });
             }
             setUsers(list);
+            console.log(list);
         })
         .catch((err) => console.log(err));
     }
@@ -88,7 +90,7 @@ const UsersPage = () => {
           </Button>
           <Space h='md' />
           <List>
-            <List.Item>{current_user_list.username}</List.Item>
+            <List.Item></List.Item>
           </List>
         </AppShell>
       );
