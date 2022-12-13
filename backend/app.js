@@ -6,6 +6,7 @@ const cors = require("cors");
 require("dotenv").config();
 const sessions = require("express-session");
 const MongoDBSessionStore = require("connect-mongodb-session")(sessions);
+const isAuth = require('./auth.js');
 
 //Connect to db
 mongoose.connect(process.env.MONGO_URI, () => {
@@ -32,17 +33,10 @@ app.use(
   })
 );
 
-const isAuth = (req, res, next) => {
-  if (req.session.isAuth) { //if user has cookie, continue.
-    next();
-  } else { // if user does not have session cookie, return a 401
-    res.status(401).send('Please sign in.')
-    //res.redirect("/user/signInUser");
-  }
-};
-
 app.use("/user", userRoute);
 app.use("/post", isAuth, postRoute);
 
 //Listen on port 5000
 app.listen(5000);
+
+module.exports

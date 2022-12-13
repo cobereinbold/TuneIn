@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const Post = require("../models/Post");
 const bcrypt = require("bcryptjs");
+const isAuth = require('../auth.js');
 
 router.post("/createUser", async (req, res) => {
   // Duplicated Email
@@ -154,11 +155,7 @@ router.put("/updateUser", async (req, res) => {
 });
 
 //destroys the session cookie, effectively logging the user out.
-router.post('/logout', (req,res) => {
-  if(req.session.isAuth) {
-
-  }
-  
+router.post('/logout', isAuth,(req,res) => {
   req.session.destroy((err) => {
     if (err) {
       console.log(err);
