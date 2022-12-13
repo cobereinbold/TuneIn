@@ -34,7 +34,6 @@ const SideBar = (props) => {
   const [drawerOpened, setDrawerOpened] = useState(false);
 
   const logout = () => {
-
     fetch("/user/logout/", {
       method: "POST",
       //headers: { "Content-Type": "application/json" },
@@ -43,7 +42,6 @@ const SideBar = (props) => {
       localStorage.removeItem("authenticated");
       navigate("/");
     });
-    
   };
 
   useEffect(() => {
@@ -53,8 +51,8 @@ const SideBar = (props) => {
   return (
     <>
       <Burger
-        className="burger"
-        color="white"
+        className='burger'
+        color='white'
         onClick={() => setDrawerOpened((o) => !o)}
       />
       <Drawer
@@ -62,19 +60,19 @@ const SideBar = (props) => {
         withCloseButton={false}
         onClose={() => setDrawerOpened((o) => !o)}
       >
-        <Navbar p="xs" className="sidebar">
+        <Navbar p='xs' className='sidebar'>
           <Navbar.Section>
             <Burger onClick={() => setDrawerOpened((o) => !o)} />
             <Center>
-              <Title color="white">TuneIn</Title>
+              <Title color='white'>TuneIn</Title>
             </Center>
           </Navbar.Section>
-          <Navbar.Section grow mt="md">
+          <Navbar.Section grow mt='md'>
             {!user.isAdmin ? ( // only render the button if user.isAdmin is false
               <Button
-                variant="subtle"
+                variant='subtle'
                 leftIcon={<IconHome2 size={50} />}
-                size="xl"
+                size='xl'
                 color={activePage === "HOME" ? "spBlack" : "white"}
                 onClick={() => {
                   navigate("/home");
@@ -86,12 +84,12 @@ const SideBar = (props) => {
             ) : null}
             {user.isAdmin ? (
               <>
-                <Space h="xl" />
+                <Space h='xl' />
                 <Button
-                  variant="subtle"
+                  variant='subtle'
                   leftIcon={<IconUsers size={50} />}
-                  size="xl"
-                  color={activePage === "POST" ? "spBlack" : "white"}
+                  size='xl'
+                  color={activePage === "USERS" ? "spBlack" : "white"}
                   onClick={() => {
                     navigate("/users");
                   }}
@@ -103,12 +101,12 @@ const SideBar = (props) => {
             ) : null}
             {user.isAdmin ? (
               <>
-                <Space h="xl" />
+                <Space h='xl' />
                 <Button
-                  variant="subtle"
+                  variant='subtle'
                   leftIcon={<IconClipboardList size={50} />}
-                  size="xl"
-                  color={activePage === "POST" ? "spBlack" : "white"}
+                  size='xl'
+                  color={activePage === "STATS" ? "spBlack" : "white"}
                   onClick={() => {
                     navigate("/stats");
                   }}
@@ -120,11 +118,11 @@ const SideBar = (props) => {
             ) : null}
             {!user.isAdmin ? (
               <>
-                <Space h="xl" />
+                <Space h='xl' />
                 <Button
-                  variant="subtle"
+                  variant='subtle'
                   leftIcon={<IconPlus size={50} />}
-                  size="xl"
+                  size='xl'
                   color={activePage === "POST" ? "spBlack" : "white"}
                   onClick={() => {
                     navigate("/post");
@@ -137,11 +135,11 @@ const SideBar = (props) => {
             ) : null}
             {!user.isAdmin ? (
               <>
-                <Space h="xl" />
+                <Space h='xl' />
                 <Button
-                  variant="subtle"
+                  variant='subtle'
                   leftIcon={<IconSearch size={50} />}
-                  size="xl"
+                  size='xl'
                   color={activePage === "SEARCH" ? "spBlack" : "white"}
                   onClick={() => {
                     navigate("/search");
@@ -179,12 +177,12 @@ const SideBar = (props) => {
                   }}
                 >
                   <Group>
-                    <Avatar src={user.profilePicture} radius="xl" />
+                    <Avatar src={user.profilePicture} radius='xl' />
                     <Box sx={{ flex: 1 }}>
-                      <Text size="sm" weight={500}>
+                      <Text size='sm' weight={500}>
                         {"@" + user.username}
                       </Text>
-                      <Text color="white" size="xs">
+                      <Text color='white' size='xs'>
                         {user.firstName + " " + user.lastName}
                       </Text>
                     </Box>
@@ -197,7 +195,7 @@ const SideBar = (props) => {
                   </Group>
                 </UnstyledButton>
               ) : null}
-              <Space h="sm" />
+              <Space h='sm' />
               <Center>
                 <Button
                   sx={{
