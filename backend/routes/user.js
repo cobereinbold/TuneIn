@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const Post = require("../models/Post");
 const bcrypt = require("bcryptjs");
-const isAuth = require('../auth.js');
+const isAuth = require("../auth.js");
 
 router.post("/createUser", async (req, res) => {
   // Duplicated Email
@@ -202,15 +202,25 @@ router.put("/userInfoById", isAuth, async (req, res) => {
 });
 
 //destroys the session cookie, logging the user out of the api.
-router.post('/logout', isAuth, (req, res) => {
+router.post("/logout", isAuth, (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.log(err);
-      res.status(500).send('Logout failed');
+      res.status(500).send("Logout failed");
     }
-    res.clearCookie('connect.sid');
-    res.status(200).send('Logged out successfully');
+    res.clearCookie("connect.sid");
+    res.status(200).send("Logged out successfully");
   });
+});
+
+router.get("/deleteUser", isAuth, async (req, res) => {
+  await User.deleteOne({ _id: req.body.userId })
+    .then(function () {
+      res.status(200).json(users);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 });
 
 module.exports = router;
