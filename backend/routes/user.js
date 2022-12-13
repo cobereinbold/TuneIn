@@ -174,8 +174,8 @@ router.get("/getSomeUsers", isAuth, async (req, res) => {
 });
 
 router.put("/searchUser", isAuth, async (req, res) => {
-  const users = await User.find({ username: req.body.username });
-  users_info = [];
+  const users = await User.find({ username: {$regex: req.body.username, $options: "i" }});
+  let users_info = [];
 
   for (index in users) {
     if (!users[index].isAdmin) {
@@ -188,6 +188,7 @@ router.put("/searchUser", isAuth, async (req, res) => {
       });
     }
   }
+  console.log(users_info);
   res.status(200).json(users_info); // Returns success code 200, there will always be available users on this simple api call
 });
 
