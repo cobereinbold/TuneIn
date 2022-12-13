@@ -76,7 +76,7 @@ const SearchPage = () => {
     if (JSON.parse(localStorage.getItem("user")).isAdmin) {
       navigate("/users");
     }
-    if(current_user_list === [])
+    if(searchVal === "")
         loadSomeUsers();
   });
 
