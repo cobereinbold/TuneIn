@@ -324,12 +324,6 @@ const AccountPage = () => {
       });
   };
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("authenticated");
-    navigate("/");
-  };
-
   /** TODO: Function to get user's previous posts */
   const getPreviousPosts = (userId) => {
     fetch(`http://localhost:5000/post/getAllPostsById/`, {
@@ -357,19 +351,6 @@ const AccountPage = () => {
 
   return (
     <AppShell navbar={<SideBar activePage="ACCOUNT" />}>
-      <Grid>
-        <Grid.Col span={3}>
-          <Center>
-            <Button onClick={() => setEditModalOpen(true)}>Edit Account</Button>
-          </Center>
-        </Grid.Col>
-        <Grid.Col span={3} offset={6}>
-          {/** Temp Logout TODO: Add option to logout from navbar*/}
-          <Center>
-            <Button onClick={() => logout()}>Logout</Button>
-          </Center>
-        </Grid.Col>
-      </Grid>
       <Center>
         <Image
           src={
@@ -386,6 +367,7 @@ const AccountPage = () => {
       <Space h="lg" />
       <Center>
         <Stack>
+          <Button onClick={() => setEditModalOpen(true)}>Edit Profile</Button>
           <Title ta="center" order={1}>
             {"@" + user.username}
           </Title>

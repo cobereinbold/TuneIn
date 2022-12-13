@@ -85,8 +85,6 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
         <Center>
           <Image
             src={songInfo.songImage}
-            width={600}
-            height={600}
             caption={songInfo.song + ": " + songInfo.artist}
             onClick={() => setModalOpen(true)}
             className="song-image"
@@ -112,6 +110,7 @@ const Post = ({ _id, user, songInfo, likes, caption, comments }) => {
         <Text onClick={() => setCommentsOpen(true)} className="comments">
           View all comments...
         </Text>
+        <Divider my="sm" />
       </Container>
       <Modal
         centered

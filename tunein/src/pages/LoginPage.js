@@ -16,6 +16,7 @@ import {
   Notification,
   Group,
   Select,
+  MediaQuery,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconCheck, IconUpload } from "@tabler/icons";
@@ -172,37 +173,38 @@ const LoginPage = () => {
   return (
     <>
       <CustomHeader />
-      <Space h="lg" />
-      <AspectRatio
-        ratio={1080 / 1080}
-        sx={{ maxWidth: "20%", marginTop: 50 }}
-        mx="auto"
-      >
+      <Space h="xs" />
+      <AspectRatio ratio={1080 / 1080} sx={{ maxWidth: "200px" }} mx="auto">
         <Image src={logo} alt="Logo" />
       </AspectRatio>
-      <Box sx={{ maxWidth: 400 }} mx="auto">
-        <form onSubmit={loginForm.onSubmit((values) => handleSignIn(values))}>
-          <TextInput
-            withAsterisk
-            label="Username"
-            placeholder="JohnSmith"
-            {...loginForm.getInputProps("username")}
-          ></TextInput>
-          <Space h="lg" />
-          <PasswordInput
-            withAsterisk
-            label="Password"
-            placeholder="Password"
-            {...loginForm.getInputProps("password")}
-          />
-          <Space h="xl" />
-          <Space h="xl" />
-          <Stack spacing="xl">
-            <Button type="submit">LOGIN</Button>
-            <Button onClick={() => setModalOpen(true)}>SIGN UP</Button>
-          </Stack>
-        </form>
-      </Box>
+      <MediaQuery
+        query="(max-width: 500px) and (min-width: 200px)"
+        styles={{ paddingLeft: "30px", paddingRight: "30px" }}
+      >
+        <Box sx={{ maxWidth: 400 }} mx="auto">
+          <form onSubmit={loginForm.onSubmit((values) => handleSignIn(values))}>
+            <TextInput
+              withAsterisk
+              label="Username"
+              placeholder="JohnSmith"
+              {...loginForm.getInputProps("username")}
+            ></TextInput>
+            <Space h="lg" />
+            <PasswordInput
+              withAsterisk
+              label="Password"
+              placeholder="Password"
+              {...loginForm.getInputProps("password")}
+            />
+            <Space h="xl" />
+            <Space h="xl" />
+            <Stack spacing="xl">
+              <Button type="submit">LOGIN</Button>
+              <Button onClick={() => setModalOpen(true)}>SIGN UP</Button>
+            </Stack>
+          </form>
+        </Box>
+      </MediaQuery>
       <Modal
         opened={modalOpen}
         onClose={() => {
