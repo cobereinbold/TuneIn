@@ -5,6 +5,10 @@ const Post = require("../models/Post");
 const bcrypt = require("bcryptjs");
 const isAuth = require("../auth.js");
 
+//This file defines our routes and endpoints for functionality related to Users. 
+//This includes creating a new account, logging in, and updating accounts, among other things.
+
+// Creates and saves a new user
 router.post("/createUser", async (req, res) => {
   // Duplicated Email
   const email = await User.findOne({ email: req.body.email });
@@ -45,6 +49,7 @@ router.post("/createUser", async (req, res) => {
   });
 });
 
+//signs a user in if their credentials are valid. Also send a session cookie to give access to proteced API endpoints.
 router.post("/signInUser", async (req, res) => {
   const foundUser = await User.findOne({ username: req.body.username });
 
@@ -68,6 +73,7 @@ router.post("/signInUser", async (req, res) => {
   }
 });
 
+//Checks if a given user has already posted today.
 router.get("/hasPostedToday", isAuth, async (req, res) => {
   const foundUser = await User.findOne({ _id: req.body.userId });
   const date = new Date();
@@ -80,6 +86,7 @@ router.get("/hasPostedToday", isAuth, async (req, res) => {
   }
 });
 
+// Updates a User's account fields, as well as updating their username on any likes or comments they have left. 
 router.put("/updateUser", isAuth, async (req, res) => {
   const foundUser = await User.findOne({ _id: req.body.userId });
 
@@ -155,11 +162,14 @@ router.put("/updateUser", isAuth, async (req, res) => {
   });
 });
 
+//returns a list of 20 non-admin Users in the database.
 router.get("/getSomeUsers", isAuth, async (req, res) => {
   const users = await User.find();
   users_info = [];
 
   for (index in users) {
+    if(users_info.length >= 20) break;
+
     if (!users[index].isAdmin) {
       users_info.push({
         _id: users[index]._id.toHexString(),
@@ -173,6 +183,7 @@ router.get("/getSomeUsers", isAuth, async (req, res) => {
   res.status(200).json(users_info);
 });
 
+//searches for a given user based on the given username, returning some of their info if found.  
 router.put("/searchUser", isAuth, async (req, res) => {
   const users = await User.find({
     username: { $regex: req.body.username, $options: "i" },
@@ -194,17 +205,19 @@ router.put("/searchUser", isAuth, async (req, res) => {
   res.status(200).json(users_info); // Returns success code 200, there will always be available users on this simple api call
 });
 
+//returns all users in the database
 router.get("/allUserInfo", isAuth, async (req, res) => {
   const users = await User.find();
   res.status(200).json(users);
 });
 
+// searches for a user with the given ID.
 router.put("/userInfoById", isAuth, async (req, res) => {
   const users = await User.find({ _id: req.body.userId });
   res.status(200).json(users);
 });
 
-//destroys the session cookie, logging the user out of the api.
+//destroys the session cookie, logging the user out of the API.
 router.post("/logout", isAuth, (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -216,6 +229,7 @@ router.post("/logout", isAuth, (req, res) => {
   });
 });
 
+//Deletes a user from the database
 router.delete("/deleteUser", isAuth, async (req, res) => {
   await User.deleteOne({ _id: req.body.userId })
     .then(function () {

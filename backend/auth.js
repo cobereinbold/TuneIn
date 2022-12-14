@@ -1,3 +1,5 @@
+//Simple middleware function that checks if the session cookie sent by the user exists and is valid.
+
 const isAuth = (req, res, next) => {
     if (req.session.isAuth) { // if the user has a valid cookie, continue
       next();

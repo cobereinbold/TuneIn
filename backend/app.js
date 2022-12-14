@@ -28,7 +28,7 @@ app.use(cors());
 // set up for session cookies
 app.use(
   sessions({
-    secret: "supersecret",
+    secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 },
     resave: false,
@@ -36,6 +36,7 @@ app.use(
   })
 );
 
+// use our routes where we define our endpoints
 app.use("/user", userRoute);
 app.use("/post", isAuth, postRoute);
 

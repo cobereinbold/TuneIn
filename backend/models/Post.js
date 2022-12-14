@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+//The Post schema for our database.
 const PostSchema = mongoose.Schema({
   date: {
     type: String,

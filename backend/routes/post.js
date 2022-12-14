@@ -3,6 +3,11 @@ const router = express.Router();
 const Post = require("../models/Post");
 const User = require("../models/User");
 
+//This file defines our routes and endpoints for functionality related to Posts. 
+//This includes creating a new post, getting posts, and updating posts through likes and/or comments,
+//among other things.
+
+//creates and stores a new post.
 router.post("/createPost", async (req, res) => {
   const user = await User.findOne({ _id: req.body.userId });
   const date = new Date();
@@ -52,6 +57,7 @@ router.post("/createPost", async (req, res) => {
   });
 });
 
+//adds a like to the given post 
 router.put("/likePost", async (req, res) => {
   const post = await Post.findOne({ _id: req.body.postId });
 
@@ -79,21 +85,25 @@ router.put("/likePost", async (req, res) => {
   });
 });
 
+//Gets all posts made by a user, given that User's unique ID.
 router.post("/getAllPostsById", async (req, res) => {
   const posts = await Post.find({ "user.userId": req.body.userId });
   res.status(200).json(posts);
 });
 
+//gets all posts in the database.
 router.get("/getAllPosts", async (req, res) => {
   const posts = await Post.find();
   res.status(200).json(posts);
 });
 
+//gets all posts liked by a User, given that User's unique ID.
 router.get("/getLikedPosts", async (req, res) => {
   const posts = await Post.find({ "likes.users": req.body.userId });
   res.status(200).json(posts);
 });
 
+//Adds a comment to a post.
 router.post("/addComment", async (req, res) => {
   //validate request
   const { userId, postId, comment } = req.body;

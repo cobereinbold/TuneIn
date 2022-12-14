@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+//The User schema for our database.
 const UserSchema = mongoose.Schema({
   username: {
     type: String,
