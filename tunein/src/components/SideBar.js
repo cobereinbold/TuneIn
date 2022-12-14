@@ -26,6 +26,11 @@ import {
 } from "@tabler/icons";
 import "../css/SideBar.css";
 
+/**
+ * Sidebar for the application
+ * @param activePage to set the colour of the active page to black
+ * @returns Sidebar
+ */
 const SideBar = (props) => {
   const theme = useMantineTheme();
   const navigate = useNavigate();
@@ -33,10 +38,12 @@ const SideBar = (props) => {
   const [user, setUser] = useState({});
   const [drawerOpened, setDrawerOpened] = useState(false);
 
+  /**
+   * Logs user out of application
+   */
   const logout = () => {
     fetch("/user/logout/", {
       method: "POST",
-      //headers: { "Content-Type": "application/json" },
     }).then((response) => {
       localStorage.removeItem("user");
       localStorage.removeItem("authenticated");
@@ -44,6 +51,9 @@ const SideBar = (props) => {
     });
   };
 
+  /**
+   * Use Effect
+   */
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
@@ -53,7 +63,7 @@ const SideBar = (props) => {
       <Burger
         className='burger'
         color='white'
-        onClick={() => setDrawerOpened((o) => !o)}
+        onClick={() => setDrawerOpened((open) => !open)}
       />
       <Drawer
         opened={drawerOpened}

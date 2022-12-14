@@ -15,12 +15,26 @@ import SpotifyButton from "./SpotifyButton";
 import "../css/SongCard.css";
 import { ObjectId } from "bson";
 
+/**
+ * SongCard component to display spotify songs
+ * @param id, name, artist, spotifyLink, image, and previewUrl for each available track
+ * @returns SongCard
+ */
 const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
+  /** Navigation */
   const navigate = useNavigate();
+
+  /** useStates */
   const [modalOpen, setModalOpen] = useState(false);
   const [caption, setCaption] = useState("");
+
+  /** User */
   const user = JSON.parse(localStorage.getItem("user"));
 
+  /**
+   * Converts artist names to a string
+   * @returns a string containing the artist
+   */
   const getArtistNames = () => {
     if (artist.length == 1) {
       return artist[0].name;
@@ -38,6 +52,9 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
     }
   };
 
+  /**
+   * Creates a post
+   */
   const post = () => {
     fetch("/post/createPost/", {
       method: "POST",
@@ -54,7 +71,6 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
       }),
     }).then((response) => {
       if (response.status === 200) {
-        console.log("Success");
         let today = new Date();
         let newUser = { ...user, dateLastPosted: today.toDateString() };
         localStorage.setItem("user", JSON.stringify(newUser));
@@ -66,10 +82,10 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
 
   return (
     <>
-      <Card onClick={() => setModalOpen(true)} className="song-card">
+      <Card onClick={() => setModalOpen(true)} className='song-card'>
         <Card.Section>
           <Image src={image} alt={name} height={160} />
-          <Text fz="lg" ta="center">
+          <Text fz='lg' ta='center'>
             {name + ": " + getArtistNames()}
           </Text>
         </Card.Section>
@@ -86,11 +102,11 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
         <Center>
           <Image src={image} height={300} width={300} />
         </Center>
-        <Space h="sm" />
+        <Space h='sm' />
         {previewUrl && (
           <Center>
-            <audio controls="controls">
-              <source src={previewUrl} type="audio/mpeg" />
+            <audio controls='controls'>
+              <source src={previewUrl} type='audio/mpeg' />
             </audio>
           </Center>
         )}
@@ -99,23 +115,23 @@ const SongCard = ({ id, name, artist, spotifyLink, image, previewUrl }) => {
             <SpotifyButton link={spotifyLink} />
           </div>
         )}
-        <Space h="sm" />
-        <Group spacing="none" position="center">
-          <Text color="spGreen" ta="center">
+        <Space h='sm' />
+        <Group spacing='none' position='center'>
+          <Text color='spGreen' ta='center'>
             Song Name:{" "}
           </Text>
-          <Text ta="center">{name}</Text>
+          <Text ta='center'>{name}</Text>
         </Group>
-        <Group spacing="none" position="center">
-          <Text color="spGreen">Song Artist: </Text>
+        <Group spacing='none' position='center'>
+          <Text color='spGreen'>Song Artist: </Text>
           <Text>{getArtistNames()}</Text>
         </Group>
         <TextInput
-          label="Caption"
+          label='Caption'
           value={caption}
           onChange={(e) => setCaption(e.target.value)}
         ></TextInput>
-        <Space h="md" />
+        <Space h='md' />
         <Center>
           <Button
             disabled={caption === "" ? true : false}

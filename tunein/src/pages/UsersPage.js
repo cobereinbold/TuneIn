@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Center, Table, AppShell, Title, Button } from "@mantine/core";
 import SideBar from "../components/SideBar";
@@ -5,11 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { ObjectId } from "bson";
 import "../css/UsersPage.css";
 
+/**
+ * UsersPage for Admin user to view all User Information
+ * @returns UsersPage
+ */
 const UsersPage = () => {
+  /** Navigation */
+  const navigate = useNavigate();
+
+  /** UseStates */
   const [userInfo, setUserInfo] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
 
-  const navigate = useNavigate();
+  /** Table Headers */
   const tableHeaders = (
     <tr>
       <th>User</th>
@@ -21,6 +30,10 @@ const UsersPage = () => {
     </tr>
   );
 
+  /**
+   * Gets all users info
+   * @returns user info
+   */
   const getAllUserInfo = async () => {
     const response = await fetch("/user/allUserInfo", {
       method: "GET",
@@ -28,6 +41,7 @@ const UsersPage = () => {
     return await response.json();
   };
 
+  /** Table rows with user information */
   const rows =
     userInfo &&
     userInfo.map((user) => (
@@ -43,12 +57,14 @@ const UsersPage = () => {
       </tr>
     ));
 
+  /**
+   * Deletes a user from the database
+   * @param userId of user to be deleted
+   */
   const deleteUser = async (userId) => {
-    // update the userInfo state variable
     let allUserInfo = userInfo.filter((user) => user._id !== userId);
     setUserInfo(allUserInfo);
 
-    // send the DELETE request
     await fetch(`/user/deleteUser`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -58,6 +74,7 @@ const UsersPage = () => {
     });
   };
 
+  /** UseEffect */
   useEffect(() => {
     setCurrentUser(JSON.parse(localStorage.getItem("user")));
     if (!JSON.parse(localStorage.getItem("user")).isAdmin) {
@@ -69,17 +86,17 @@ const UsersPage = () => {
   }, []);
 
   return (
-    <AppShell navbar={<SideBar activePage="USERS" />}>
+    <AppShell navbar={<SideBar activePage='USERS' />}>
       <Center>
-        <Title className="title">Admin View: Users Table</Title>
+        <Title className='title'>Admin View: Users Table</Title>
       </Center>
-      <div id="container">
+      <div id='container'>
         <Table
-          className="users-table"
+          className='users-table'
           withBorder
           withColumnBorders
           highlightOnHover
-          fontSize="md"
+          fontSize='md'
         >
           <thead>{tableHeaders}</thead>
           <tbody>{rows}</tbody>

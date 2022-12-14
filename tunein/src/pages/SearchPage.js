@@ -6,22 +6,29 @@ import {
   Button,
   Card,
   Center,
-  Grid,
   Image,
-  List,
   SimpleGrid,
-  Select,
   Space,
   TextInput,
   Title,
   Text,
 } from "@mantine/core";
 
+/**
+ * SearchPage where users can look up other users
+ * @returns SearchPage
+ */
 const SearchPage = () => {
+  /** Navigation */
   const navigate = useNavigate();
+
+  /** UseStates */
   const [searchVal, setSearchVal] = useState("");
   const [current_user_list, setUsers] = useState([]);
 
+  /**
+   * Loads the first 20 users.
+   */
   async function loadSomeUsers() {
     fetch(`/user/getSomeUsers`, {
       method: "GET",
@@ -45,6 +52,10 @@ const SearchPage = () => {
       .catch((err) => console.log(err));
   }
 
+  /**
+   * Searches for specific users
+   * @param value the search parameter
+   */
   async function search(value) {
     fetch(`/user/searchUser`, {
       method: "PUT",
@@ -70,6 +81,7 @@ const SearchPage = () => {
       .catch((err) => console.log(err));
   }
 
+  /** UseEffect */
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("user")).isAdmin) {
       navigate("/users");
@@ -78,19 +90,19 @@ const SearchPage = () => {
   });
 
   return (
-    <AppShell navbar={<SideBar activePage="SEARCH" />}>
+    <AppShell navbar={<SideBar activePage='SEARCH' />}>
       <Title order={1}>Search for a User</Title>
       <TextInput
         value={searchVal}
         onChange={(e) => setSearchVal(e.currentTarget.value)}
-        label="Search"
+        label='Search'
         onKeyPress={(event) => {
           if (event.key === "Enter") {
             search(searchVal);
           }
         }}
       />
-      <Space h="md" />
+      <Space h='md' />
       <Button
         onClick={() => {
           if (searchVal === "") {
@@ -102,11 +114,11 @@ const SearchPage = () => {
       >
         Search
       </Button>
-      <Space h="md" />
+      <Space h='md' />
       <Center>
         <SimpleGrid
           cols={4}
-          spacing="xl"
+          spacing='xl'
           breakpoints={[
             { maxWidth: 1800, cols: 4, spacing: "xl" },
             { maxWidth: 1500, cols: 3, spacing: "xl" },
@@ -117,10 +129,10 @@ const SearchPage = () => {
           {current_user_list.map((user) => {
             return (
               <Card
-                shadow="sm"
-                p="xl"
-                component="a"
-                target="_blank"
+                shadow='sm'
+                p='xl'
+                component='a'
+                target='_blank'
                 onClick={() => {
                   localStorage.setItem("viewuser", user.userId);
                   navigate("/viewaccount");
@@ -137,11 +149,11 @@ const SearchPage = () => {
                   />
                 </Card.Section>
 
-                <Text weight={500} size="lg" mt="md">
+                <Text weight={500} size='lg' mt='md'>
                   @{user.username}
                 </Text>
 
-                <Text mt="xs" color="dimmed" size="sm">
+                <Text mt='xs' color='dimmed' size='sm'>
                   {user.firstName} {user.lastName}
                 </Text>
               </Card>

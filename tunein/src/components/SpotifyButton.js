@@ -1,6 +1,11 @@
 import React from "react";
 import "../css/SpotifyButton.css";
 
+/**
+ * Button that shows listen on Spotify
+ * @param link to song
+ * @returns SpotifyButton
+ */
 const SpotifyButton = (link) => {
   return (
     <button

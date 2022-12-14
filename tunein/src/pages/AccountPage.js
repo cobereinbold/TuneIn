@@ -16,225 +16,16 @@ import {
   FileInput,
   Button,
   Group,
-  Grid,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconUpload, IconHeart, IconDots } from "@tabler/icons";
 import SideBar from "../components/SideBar";
 import { ObjectId } from "bson";
-import slander from "../images/slander.jpeg";
-import herLoss from "../images/herloss.jpeg";
-import boslen from "../images/boslen.jpeg";
-import lilUzi from "../images/lil-uzi.jpeg";
-import takeCare from "../images/take-care.jpeg";
-import tiesto from "../images/tiesto.jpeg";
-import midnights from "../images/midnights.jpeg";
-import metro from "../images/metro.jpeg";
 import "../css/AccountPage.css";
 
-let pastPosts = [
-  {
-    date: "Dec 4, 2022",
-    songInfo: {
-      song: "Love Is Gone",
-      artist: "Slander ft. Dylan Matthew",
-      spotifyLink:
-        "https://open.spotify.com/track/39glqzRVRAy4vq3PqeTGb8?si=9f8074f5c4d241cd",
-      songImage: slander,
-    },
-    caption: "LOVING THIS NEW ALBUM!",
-    likes: {
-      count: 14,
-      users: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    },
-    comments: [
-      {
-        userName: "billy",
-        comment: "cool",
-      },
-      {
-        userName: "thomas",
-        comment: "I hate this song.",
-      },
-    ],
-  },
-  {
-    date: "Dec 3, 2022",
-    songInfo: {
-      song: "Take Care",
-      artist: "Drake ft. Rihanna",
-      spotifyLink:
-        "https://open.spotify.com/track/124NFj84ppZ5pAxTuVQYCQ?si=93332ecd313a45c5",
-      songImage: takeCare,
-    },
-    caption: "LOVING THIS NEW ALBUM!",
-    likes: {
-      count: 12,
-      users: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    },
-    comments: [
-      {
-        userName: "billy",
-        comment: "cool",
-      },
-      {
-        userName: "thomas",
-        comment: "I hate this song.",
-      },
-    ],
-  },
-  {
-    date: "Dec 2, 2022",
-    songInfo: {
-      song: "The Motto",
-      artist: "Tiesto, Ava Max",
-      spotifyLink:
-        "https://open.spotify.com/track/18asYwWugKjjsihZ0YvRxO?si=ff86c5c0959d4ae2",
-      songImage: tiesto,
-    },
-    caption: "LOVING THIS NEW ALBUM!",
-    likes: {
-      count: 9,
-      users: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    },
-    comments: [
-      {
-        userName: "billy",
-        comment: "cool",
-      },
-      {
-        userName: "thomas",
-        comment: "I hate this song.",
-      },
-    ],
-  },
-  {
-    date: "Dec 1, 2022",
-    songInfo: {
-      song: "Just Wanna Rock",
-      artist: "Lil Uzi Vert",
-      spotifyLink:
-        "https://open.spotify.com/track/4FyesJzVpA39hbYvcseO2d?si=e72a3e0cb7954f2a",
-      songImage: lilUzi,
-    },
-    caption: "LOVING THIS NEW ALBUM!",
-    likes: {
-      count: 7,
-      users: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    },
-    comments: [
-      {
-        userName: "billy",
-        comment: "cool",
-      },
-      {
-        userName: "thomas",
-        comment: "I hate this song.",
-      },
-    ],
-  },
-  {
-    date: "Nov 30, 2022",
-    songInfo: {
-      song: "Rich Flex",
-      artist: "Drake ft. 21 Savage",
-      spotifyLink:
-        "https://open.spotify.com/track/1bDbXMyjaUIooNwFE9wn0N?si=b68ca04005034725",
-      songImage: herLoss,
-    },
-    caption: "LOVING THIS NEW ALBUM!",
-    likes: {
-      count: 2,
-      users: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    },
-    comments: [
-      {
-        userName: "billy",
-        comment: "cool",
-      },
-      {
-        userName: "thomas",
-        comment: "I hate this song.",
-      },
-    ],
-  },
-  {
-    date: "Nov 19, 2022",
-    songInfo: {
-      song: "NIGHTFALL",
-      artist: "Boslen ft. Dro Kenji",
-      spotifyLink:
-        "https://open.spotify.com/track/04EvAhYmelTjLIxWzK7JLm?si=d6f86c44f44d489b",
-      songImage: boslen,
-    },
-    caption: "LOVING THIS NEW ALBUM!",
-    likes: {
-      count: 10,
-      users: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    },
-    comments: [
-      {
-        userName: "billy",
-        comment: "cool",
-      },
-      {
-        userName: "thomas",
-        comment: "I hate this song.",
-      },
-    ],
-  },
-  {
-    date: "Nov 13, 2022",
-    songInfo: {
-      song: "Anti-Hero",
-      artist: "Taylor Swift",
-      spotifyLink:
-        "https://open.spotify.com/track/0V3wPSX9ygBnCm8psDIegu?si=f8bdfd471fb44fdf",
-      songImage: midnights,
-    },
-    caption: "LOVING THIS NEW ALBUM!",
-    likes: {
-      count: 5,
-      users: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    },
-    comments: [
-      {
-        userName: "billy",
-        comment: "cool",
-      },
-      {
-        userName: "thomas",
-        comment: "I hate this song.",
-      },
-    ],
-  },
-  {
-    date: "Nov 11, 2022",
-    songInfo: {
-      song: "Metro Spider",
-      artist: "Metro Boomin ft. Young Thug",
-      spotifyLink:
-        "https://open.spotify.com/track/2VtgzixdB967bHDNu5A1nh?si=4c885604efd744e2",
-      songImage: metro,
-    },
-    caption: "LOVING THIS NEW ALBUM!",
-    likes: {
-      count: 1,
-      users: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    },
-    comments: [
-      {
-        userName: "billy",
-        comment: "cool",
-      },
-      {
-        userName: "thomas",
-        comment: "I hate this song.",
-      },
-    ],
-  },
-];
-
+/**
+ * Default song for palceholder info
+ */
 let defaultSong = {
   songInfo: {
     song: "",
@@ -255,14 +46,22 @@ let defaultSong = {
   ],
 };
 
+/**
+ * Account Page with User's info and Past posts
+ * @returns AccountPage
+ */
 const AccountPage = () => {
+  /** Navigation */
   const navigate = useNavigate();
+
+  /** Use States */
   const [user, setUser] = useState({});
   const [previousPosts, setPreviousPosts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(defaultSong);
-
   const [editModalOpen, setEditModalOpen] = useState(false);
+
+  /** Edit account form */
   const accountForm = useForm({
     initialValues: {
       email: user.email,
@@ -282,6 +81,7 @@ const AccountPage = () => {
     },
   });
 
+  /** Use Effect */
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
     if (!loggedInUser) {
@@ -295,6 +95,10 @@ const AccountPage = () => {
     getPreviousPosts(JSON.parse(localStorage.getItem("user"))._id);
   }, []);
 
+  /**
+   * Updates the account information
+   * @param values from the form
+   */
   const updateAccount = (values) => {
     fetch(`/user/updateUser`, {
       method: "PUT",
@@ -327,7 +131,10 @@ const AccountPage = () => {
       });
   };
 
-  /** TODO: Function to get user's previous posts */
+  /**
+   * Get user's previous posts
+   * @param userId
+   */
   const getPreviousPosts = (userId) => {
     fetch(`/post/getAllPostsById/`, {
       method: "POST",
