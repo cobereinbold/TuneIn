@@ -119,7 +119,6 @@ const AccountPage = () => {
     })
       .then((response) => {
         if (response.status === 200) {
-          console.log("success");
         } else {
           console.log(response.status);
         }
@@ -269,7 +268,6 @@ const AccountPage = () => {
             width={400}
             onClick={() => {
               window.open(selectedPost.songInfo.songLink, "_blank");
-              console.log(selectedPost);
             }}
           ></Image>
         </Center>
