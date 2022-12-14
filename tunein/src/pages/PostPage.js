@@ -13,12 +13,19 @@ import {
 } from "@mantine/core";
 import SongCard from "../components/SongCard";
 
+/**
+ * PostPage where users can search and post a song
+ * @returns PostPage
+ */
 const PostPage = () => {
+  /** Navigation */
   const navigate = useNavigate();
 
+  /** Spotify API */
   const CLIENT_ID = "bc464b8bf4854f15be027a9a077683f3";
   const CLIENT_SECRET = "5e0dc7042cab4e2b8dea438466aaab4f";
 
+  /** Use States */
   const [token, setToken] = useState();
   const [searched, setSearched] = useState(false);
   const [searchVal, setSearchVal] = useState("");
@@ -26,6 +33,9 @@ const PostPage = () => {
   const [posted, setPosted] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  /**
+   * UseEffect handling redirects, and loading top 20 Global tracks
+   */
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
     let today = new Date();
@@ -65,6 +75,10 @@ const PostPage = () => {
     }
   }, []);
 
+  /**
+   * Loads Global top 20 songs from Spotify playlist
+   * @param authToken authorization token
+   */
   async function loadTop20(authToken = token) {
     const params = {
       method: "GET",
@@ -91,12 +105,17 @@ const PostPage = () => {
             image: item.track.album.images[0].url,
             previewUrl: item.track.preview_url,
           });
+          return "";
         });
         setSearchResults(res);
         setLoading(false);
       });
   }
 
+  /**
+   * Searches for a track on Spotify
+   * @param query search query
+   */
   async function search(query) {
     const fetchURL = encodeURI(`q=${query}`);
     const params = {

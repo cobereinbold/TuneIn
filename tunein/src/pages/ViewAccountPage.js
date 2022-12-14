@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -10,20 +11,14 @@ import {
   Text,
   SimpleGrid,
   Modal,
-  Box,
-  PasswordInput,
-  TextInput,
-  FileInput,
-  Button,
   Group,
-  Grid,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { IconUpload, IconHeart, IconDots } from "@tabler/icons";
+import { IconHeart, IconDots } from "@tabler/icons";
 import SideBar from "../components/SideBar";
 import { ObjectId } from "bson";
 import "../css/AccountPage.css";
 
+/** Placeholder song */
 let defaultSong = {
   songInfo: {
     song: "",
@@ -44,18 +39,28 @@ let defaultSong = {
   ],
 };
 
+/**
+ * AccountPage to show other user's account
+ * @returns AccountPage
+ */
 const AccountPage = () => {
+  /** Navigation */
   const navigate = useNavigate();
+
+  /** UserId for profile to be viewed */
+  const viewuserId = localStorage.getItem("viewuser");
+
+  /** UseStates */
   const [user, setUser] = useState({});
   const [previousPosts, setPreviousPosts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(defaultSong);
-
-  const viewuserId = localStorage.getItem("viewuser");
-
   const [editModalOpen, setEditModalOpen] = useState(false);
 
-  /** TODO: Function to get user's previous posts */
+  /**
+   * Get's previous posts for the specific user
+   * @param userId of the user's account
+   */
   const getPreviousPosts = (userId) => {
     fetch(`/post/getAllPostsById/`, {
       method: "POST",
@@ -80,6 +85,10 @@ const AccountPage = () => {
       });
   };
 
+  /**
+   * Set's the user's information
+   * @param userId the specific user
+   */
   const setUserInfo = (userId) => {
     fetch(`/user/userInfoById/`, {
       method: "PUT",
@@ -94,6 +103,7 @@ const AccountPage = () => {
       });
   };
 
+  /* UseEffect */
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("user")).isAdmin) {
       navigate("/users");

@@ -12,6 +12,10 @@ import StatsPage from "./pages/StatsPage";
 import SearchPage from "./pages/SearchPage";
 import ViewAccountPage from "./pages/ViewAccountPage";
 
+/**
+ * App component that holds all the endpoints
+ * @returns App
+ */
 const App = () => {
   return (
     <MantineProvider
@@ -52,16 +56,14 @@ const App = () => {
     >
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
-          {/* TODO: make these user view only */}
-          <Route path="home" element={<HomePage />} />
-          <Route path="post" element={<PostPage />} />
-          <Route path="account" element={<AccountPage />} />
-          {/* TODO: make these admin view only */}
-          <Route path="users" element={<UsersPage />} />
-          <Route path="stats" element={<StatsPage />} />
-          <Route path="search" element={<SearchPage />} />
-          <Route path="viewaccount" element={<ViewAccountPage />} />
+          <Route path='/' element={<LoginPage />} />
+          <Route path='home' element={<HomePage />} />
+          <Route path='post' element={<PostPage />} />
+          <Route path='account' element={<AccountPage />} />
+          <Route path='users' element={<UsersPage />} />
+          <Route path='stats' element={<StatsPage />} />
+          <Route path='search' element={<SearchPage />} />
+          <Route path='viewaccount' element={<ViewAccountPage />} />
         </Routes>
       </BrowserRouter>
     </MantineProvider>

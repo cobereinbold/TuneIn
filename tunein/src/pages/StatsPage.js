@@ -1,14 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Center, Table, AppShell, Title } from "@mantine/core";
 import SideBar from "../components/SideBar";
 import { useNavigate } from "react-router-dom";
 import "../css/StatsPage.css";
 
+/**
+ * StatsPage for Admin users to view user statistics
+ * @returns StatsPage
+ */
 const StatsPage = () => {
-  const [userInfo, setUserInfo] = useState(null);
-  const [currentUser, setCurrentUser] = useState({});
+  /** Navigation */
   const navigate = useNavigate();
 
+  /* UseStates */
+  const [userInfo, setUserInfo] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
+
+  /** Table Headers */
   const tableHeaders = (
     <tr>
       <th>User</th>
@@ -18,6 +27,10 @@ const StatsPage = () => {
     </tr>
   );
 
+  /**
+   * Gets all users info
+   * @returns user info
+   */
   const getAllUserInfo = async () => {
     const response = await fetch("/user/allUserInfo", {
       method: "GET",
@@ -25,6 +38,7 @@ const StatsPage = () => {
     return await response.json();
   };
 
+  /** Table rows with user statistics */
   const rows =
     userInfo &&
     userInfo.map((user) => (
@@ -36,6 +50,7 @@ const StatsPage = () => {
       </tr>
     ));
 
+  /** UseEffect */
   useEffect(() => {
     setCurrentUser(JSON.parse(localStorage.getItem("user")));
     if (!JSON.parse(localStorage.getItem("user")).isAdmin) {
@@ -43,22 +58,21 @@ const StatsPage = () => {
     }
     getAllUserInfo().then((data) => {
       setUserInfo(data);
-      console.log(data);
     });
   }, []);
 
   return (
-    <AppShell navbar={<SideBar activePage="STATS" />}>
+    <AppShell navbar={<SideBar activePage='STATS' />}>
       <Center>
-        <Title className="title">Admin View: Statistics Table</Title>
+        <Title className='title'>Admin View: Statistics Table</Title>
       </Center>
-      <div id="container">
+      <div id='container'>
         <Table
-          className="stats-table"
+          className='stats-table'
           withBorder
           withColumnBorders
           highlightOnHover
-          fontSize="md"
+          fontSize='md'
         >
           <thead>{tableHeaders}</thead>
           <tbody>{rows}</tbody>

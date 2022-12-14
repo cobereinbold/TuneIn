@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CustomHeader from "../components/CustomHeader";
@@ -20,17 +21,24 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconCheck, IconUpload } from "@tabler/icons";
-import "../css/LoginPage.css";
 import logo from "../images/tuneInLogo.png";
 
+/**
+ * LoginPage handling login and user sign up
+ * @returns LoginPage
+ */
 const LoginPage = () => {
+  /** Navigation */
   const navigate = useNavigate();
+
+  /** UseStates */
   const [modalOpen, setModalOpen] = useState(false);
   const [successCreated, setSuccessCreated] = useState(false);
   const [file, setFile] = useState();
   const [signUpLoading, setSignUpLoading] = useState(false);
   const [signUpDisabled, setSignUpDisabled] = useState(false);
 
+  /** UseEffects */
   useEffect(() => {
     const loggedInUser = localStorage.getItem("authenticated");
     if (loggedInUser) {
@@ -38,6 +46,7 @@ const LoginPage = () => {
     }
   }, []);
 
+  /** Login Form */
   const loginForm = useForm({
     initialValues: {
       username: "",
@@ -50,6 +59,10 @@ const LoginPage = () => {
     },
   });
 
+  /**
+   * Handles user signing in
+   * @param values from the login form
+   */
   const handleSignIn = (values) => {
     fetch(`/user/signInUser`, {
       method: "POST",
@@ -85,6 +98,7 @@ const LoginPage = () => {
       });
   };
 
+  /** Sign up user form */
   const signUpForm = useForm({
     initialValues: {
       email: "",
@@ -105,6 +119,10 @@ const LoginPage = () => {
     },
   });
 
+  /**
+   * Handles signing up a user
+   * @param values from sign up form
+   */
   const signUpUser = async (values) => {
     let profilePic = "";
     console.log(file);
@@ -130,12 +148,9 @@ const LoginPage = () => {
           setSuccessCreated(true);
           setSignUpDisabled(true);
         } else if (response.status === 502) {
-          // Email already used
           console.log("User could not be created. \nError: " + response);
-          signUpForm.setErrors({ email: "Account already created" }); //TODO: Forgot password handling
+          signUpForm.setErrors({ email: "Account already created" });
         } else {
-          //TODO: need more error handling, username already taken not neccessarily the issue.
-          //      Backend needs different error numbers
           console.log("User could not be created. \nError: " + response);
           signUpForm.setErrors({ username: "Username already taken" });
         }
@@ -143,9 +158,14 @@ const LoginPage = () => {
       .catch((err) => console.log(err));
   };
 
-  const uploadProfilePic = async (e) => {
+  /**
+   * Uploads a profile picture for the user
+   * @param file for the profile picture
+   * @returns the url for where the image is available
+   */
+  const uploadProfilePic = async (file) => {
     let res = "";
-    await getBase64(e).then(async (image) => {
+    await getBase64(file).then(async (image) => {
       let body = new FormData();
       let imageText = image.replace(/^data:image\/[a-z]+;base64,/, "");
       body.append("image", imageText);
@@ -162,6 +182,11 @@ const LoginPage = () => {
     return res;
   };
 
+  /**
+   * Converts image file to base64
+   * @param file image file
+   * @returns base64 encoded image
+   */
   const getBase64 = (file) => {
     return new Promise((resolve) => {
       let baseURL = "";
