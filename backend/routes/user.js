@@ -5,7 +5,7 @@ const Post = require("../models/Post");
 const bcrypt = require("bcryptjs");
 const isAuth = require("../auth.js");
 
-//This file defines our routes and endpoints for functionality related to Users. 
+//This file defines our routes and endpoints for functionality related to Users.
 //This includes creating a new account, logging in, and updating accounts, among other things.
 
 // Creates and saves a new user
@@ -86,7 +86,7 @@ router.get("/hasPostedToday", isAuth, async (req, res) => {
   }
 });
 
-// Updates a User's account fields, as well as updating their username on any likes or comments they have left. 
+// Updates a User's account fields, as well as updating their username on any likes or comments they have left.
 router.put("/updateUser", isAuth, async (req, res) => {
   const foundUser = await User.findOne({ _id: req.body.userId });
 
@@ -168,7 +168,7 @@ router.get("/getSomeUsers", isAuth, async (req, res) => {
   users_info = [];
 
   for (index in users) {
-    if(users_info.length >= 20) break;
+    if (users_info.length >= 20) break;
 
     if (!users[index].isAdmin) {
       users_info.push({
@@ -183,7 +183,7 @@ router.get("/getSomeUsers", isAuth, async (req, res) => {
   res.status(200).json(users_info);
 });
 
-//searches for a given user based on the given username, returning some of their info if found.  
+//searches for a given user based on the given username, returning some of their info if found.
 router.put("/searchUser", isAuth, async (req, res) => {
   const users = await User.find({
     username: { $regex: req.body.username, $options: "i" },
@@ -201,7 +201,6 @@ router.put("/searchUser", isAuth, async (req, res) => {
       });
     }
   }
-  console.log(users_info);
   res.status(200).json(users_info); // Returns success code 200, there will always be available users on this simple api call
 });
 
