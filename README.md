@@ -7,7 +7,7 @@ You can navigate through the different pages on the app via the menu located in 
 
 The home page of the app shows the posts of all users for the current day starting at 00:00 UTC and will refresh on the next calendar day. Once users post their song of the day, they cannot post again.
 
-You can search for any available song on spotify to post. Once a user posts, you can view the song on spotif by clicking on the Album art on the home page.
+You can search for any available song on spotify to post. Once a user posts, you can view the song on spotify by clicking on the Album art on the home page.
 
 Users can like and comment on any post on the home page.
 
@@ -16,7 +16,7 @@ You can search for any existing user on the app using the search bar.
 ## Getting started
 
 ### Database:
-Setup may be required to run the server on your computer
+Setup may be required to run the server on your computer. MongoDB requires manual IP whitelisting in order to connect to it. We have whitelisted all IPs, but in case you run into issues running the backend, follow these steps:
 
 1. Go to [MongoDB](https://account.mongodb.com/account/login)
 2. Sign in with the following credentials:
@@ -30,7 +30,7 @@ Setup may be required to run the server on your computer
 2. Install the required dependancies for the server side: `npm i`
 3. Start the server locally: `npm start`
 
-The server will run on http://localhost:5000/
+The server will run on http://localhost:5000/. Everything is in working order when you see 'Connected to database' in the terminal.
 
 ### Client:
 1. In another terminal, cd into TuneIn/tunein: `cd tunein`
