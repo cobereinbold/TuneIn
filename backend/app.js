@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const cors = require("cors");
 require("dotenv").config();
 const sessions = require("express-session");
 const MongoDBSessionStore = require("connect-mongodb-session")(sessions);
@@ -23,7 +22,6 @@ const userRoute = require("./routes/user");
 const postRoute = require("./routes/post");
 
 app.use(bodyParser.json());
-app.use(cors());
 
 // set up for session cookies
 app.use(
