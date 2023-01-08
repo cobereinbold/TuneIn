@@ -15,16 +15,6 @@ You can search for any existing user on the app using the search bar.
 
 ## Getting started
 
-### Database:
-Setup may be required to run the server on your computer. MongoDB requires manual IP whitelisting in order to connect to it. We have whitelisted all IPs, but in case you run into issues running the backend, follow these steps:
-
-1. Go to [MongoDB](https://account.mongodb.com/account/login)
-2. Sign in with the following credentials:
-- Email: official.skinnydriver@gmail.com
-- Password: SENG513Project
-3. After signing in, you may need to whitelist your IP address to properly use the application
-4. If available, click on 'Add my IP address'
-
 ### Server:
 1. In one terminal, cd into TuneIn/backend: `cd backend`
 2. Install the required dependancies for the server side: `npm i`
