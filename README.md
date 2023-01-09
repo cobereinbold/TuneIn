@@ -37,3 +37,6 @@ To log into TuneIn as an admin, you may log in with the following admin credenti
 
 Admins are able to View the account information of all users, and delete users.
 Admins cannot view any of the users passwords, as they are encrypted through the database.
+
+### Screenshot
+![Screenshot](tunein/src/images/screenshot.png)
