@@ -1,5 +1,5 @@
 # TuneIn
-A mobile-friendly Client/Server application built with ReactJS, NextJS, MongoDB, and Spotify's Web API.
+A mobile-friendly Client/Server application built with React.js, Node.js, MongoDB, and Spotify's Web API.
 
 TuneIn is a social media application where users can share their song of the day, and view the song of the day of other users on the app.
 
